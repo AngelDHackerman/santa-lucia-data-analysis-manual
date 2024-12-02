@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-lotter_number = 177
+lottery_number = 177
 
 # Setup for ChromeDriver
 driver = webdriver.Chrome()  # Optional argument, if not specified will search path.
@@ -21,30 +21,38 @@ try:
     driver.get(url)
     wait = WebDriverWait(driver, 10)
     
-    # Wait for the page to load and close add
+    # Wait and close the pop up
     close_ad = wait.until(EC.visibility_of_element_located((By.ID, "ocultarAnuncio"))) # //*[@id="ocultarAnuncio"]
     # click on the "close button" using javascript
     driver.execute_script("arguments[0].click();", close_ad)
     
     # Click on the lottery number
-    element = wait.until(EC.presence_of_element_located((By.XPATH, f"//a[contains(@href, 'id={lotter_number}')]")))
+    element = wait.until(EC.presence_of_element_located((By.XPATH, f"//a[contains(@href, 'id={lottery_number}')]")))
     driver.execute_script("arguments[0].click();", element)
-    time.sleep(10)
+    time.sleep(5) # give time to load information of the lottery
     
-    # Look for the header
+    # Look and extract the main information in the header
     header = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "heading_s1.text-center")))
-    # Extract the text information for the winner numbers, date, lotter number and refunds
-    header_text = header.text
-    print(header_text)
+    header_text = header.text.strip()
     
-    # Look for the body
+    # Extract the information for he body card with all the winner numbers, combinations and total prizes 
     body_content = wait.until(EC.presence_of_element_located(
         (By.XPATH, "(//div[@class='card-body']//div[@class='row'])[3]") # # Third 'row' inside 'card-body'
     ))
-    # Extract the information for he body card with all the winner numbers, combinations and total prizes 
     body_results = body_content.text
-    print(body_results)
     
+    # Save in a .txt file
+    with open(f"./miscellaneous/results_raw_lottery_id_{lottery_number}.txt", "w", encoding="utf-8") as file:
+        file.write("HEADER\n")
+        file.write(header_text + "\n\n")
+        file.write("BODY\n")
+        # Check if the first group lacks a title
+        if not body_results.startswith("00MIL"):
+            file.write("CENTENARES\n") # Add title to the first group
+            
+        file.write(body_results)
+    
+    print(f"Information extracted and saved in 'results_raw_loterry_id_{lottery_number}.txt")
 finally:
     # Close Browser
     driver.quit()
