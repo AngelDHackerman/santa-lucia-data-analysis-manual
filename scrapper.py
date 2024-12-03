@@ -34,6 +34,11 @@ try:
     # Look and extract the main information in the header
     header = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "heading_s1.text-center")))
     header_text = header.text.strip()
+    header_sorteo_number = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h2"))).text.strip()
+    header_sorteo_number = header_sorteo_number.lower()
+    
+    # Format the header text for the filename
+    header_filename = header_sorteo_number.replace(" ", "_")
     
     # Extract the information for he body card with all the winner numbers, combinations and total prizes 
     body_content = wait.until(EC.presence_of_element_located(
@@ -42,7 +47,7 @@ try:
     body_results = body_content.text
     
     # Save in a .txt file
-    with open(f"./miscellaneous/results_raw_lottery_id_{lottery_number}.txt", "w", encoding="utf-8") as file:
+    with open(f"./miscellaneous/results_raw_lottery_id_{lottery_number}_{header_filename}.txt", "w", encoding="utf-8") as file:
         file.write("HEADER\n")
         file.write(header_text + "\n\n")
         file.write("BODY\n")
@@ -52,7 +57,7 @@ try:
             
         file.write(body_results)
     
-    print(f"Information extracted and saved in 'results_raw_loterry_id_{lottery_number}.txt")
+    print(f"Information extracted and saved in 'results_raw_loterry_id_{lottery_number}_{header_filename}.txt")
 finally:
     # Close Browser
     driver.quit()
