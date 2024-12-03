@@ -34,6 +34,10 @@ try:
     # Look and extract the main information in the header
     header = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "heading_s1.text-center")))
     header_text = header.text.strip()
+    # Remove extra newlines from the header
+    header_text = "\n".join(filter(lambda line: line.strip() != "", header_text.splitlines()))
+    
+    # Extract information for th file name
     header_sorteo_number = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h2"))).text.strip()
     header_sorteo_number = header_sorteo_number.lower()
     
