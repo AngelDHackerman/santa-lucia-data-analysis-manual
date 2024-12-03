@@ -25,4 +25,11 @@ for df in dataframes:
     header_data = content[header_start + 1 : body_start] # slicing between HEADER and BODY
     body_data = content[body_start + 1 : ] # From BODY until the end of the file
     
+    # Remove blank lines and extra spaces
+    header_data = [line.strip() for line in header_data if line.strip()]
+    body_data = [line.strip() for line in body_data if line.strip()]
+    
+    df["header"] = header_data
+    df["body"] = body_data
+    
     
