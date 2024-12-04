@@ -51,7 +51,7 @@ try:
     body_results = body_content.text
     
     # Save in a .txt file
-    with open(f"./miscellaneous/results_raw_lottery_id_{lottery_number}_{header_filename}.txt", "w", encoding="utf-8") as file:
+    with open(f"./miscellaneous/results_raw_lottery_url_id_{lottery_number}_{header_filename}.txt", "w", encoding="utf-8") as file:
         file.write("HEADER\n")
         file.write(header_text + "\n\n")
         file.write("BODY\n")
@@ -61,7 +61,7 @@ try:
             
         file.write(body_results)
     
-    print(f"Information extracted and saved in 'results_raw_loterry_id_{lottery_number}_{header_filename}.txt")
+    print(f"Information extracted and saved in 'results_raw_loterry_url_id_{lottery_number}_{header_filename}.txt")
 finally:
     # Close Browser
     driver.quit()
