@@ -15,3 +15,6 @@ So we will look for the new list awards by using the "id",
 
 Xpaths "Listado de premios" https://loteria.org.gt/site/award
 <a href="/site/award-detail?id=177&amp;sorteo=390&amp;TipoSorteo=Extraordinario"></a>
+
+
+working into the data base in AWS
