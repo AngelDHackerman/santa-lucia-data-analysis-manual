@@ -34,7 +34,21 @@ def create_iam_user(user_name, group_name):
         
         # Generate access credentials
         credentials = iam_client.create_access_key(UserName=user_name)
+        
+        # Serialize credentials, ensuring datetime is handled correctly
+        credentials['AccessKey']['CreateDate'] = credentials['AccessKey']['CreateDate'].isoformat()
         print("Credentials created:")
         print(json.dumps(credentials['AccessKey'], indent=2))
     except Exception as e:
         print(f"Error creating user: {e}")
+        
+# Setup
+group_name = "admin_db_group"
+user_name = "angel_db_admin"
+policies_arns = [
+    "arn:aws:iam::aws:policy/AdministratorAccess",
+    "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
+]
+
+create_iam_group(group_name, policies_arns)
+create_iam_user(user_name, group_name)
