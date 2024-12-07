@@ -4,9 +4,6 @@ import json
 # Create client for IAM
 iam_client = boto3.client('iam')
 
-# Create client for RDS
-rds_client = boto3.client('rds')
-
 # Step 1: Create user groups with all the needed access
 def create_iam_group(group_name, policies_arns):
     try:
