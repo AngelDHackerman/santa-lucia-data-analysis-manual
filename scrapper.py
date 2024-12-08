@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-lottery_number = 205
+lottery_number = 207
 
 # Setup for ChromeDriver
 driver = webdriver.Chrome()  # Optional argument, if not specified will search path.
