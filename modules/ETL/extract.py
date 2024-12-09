@@ -6,7 +6,7 @@ import os
 import time
 
 
-def extract_lottery_data(lottery_number, output_folder="./miscellaneous"):
+def extract_lottery_data(lottery_number, output_folder="./Data/raw/"):
     """
     Extracts raw lottery data for a given lottery number and saves it to a .txt file.
     
@@ -29,6 +29,7 @@ def extract_lottery_data(lottery_number, output_folder="./miscellaneous"):
 
         # Close pop-up ad
         close_ad = wait.until(EC.visibility_of_element_located((By.ID, "ocultarAnuncio")))
+        # Click on the "close button" using javascript
         driver.execute_script("arguments[0].click();", close_ad)
 
         # Click on the lottery number link
