@@ -1,126 +1,116 @@
-# %%
 import os
 import pandas as pd
 import re
 
-# %%
-# Read and Load files from miscellaneous
 
-folder_path = "./miscellaneous"
-files = [f for f in os.listdir(folder_path) if f.startswith("results_raw")]
+def read_files(folder_path):
+    # Reads all files starting with 'results_raw' from a folder.
+    files = [f for f in os.listdir(folder_path) if f.startswith("results_raw")]
+    dataframes = []
+    for file in files:
+        with open(os.path.join(folder_path, file), "r", encoding="utf-8") as f:
+            lines = f.readlines()
+            dataframes.append({"filename": file, "content": lines})
+    return dataframes
 
-dataframes = [] # archive processed data by file
 
-for file in files:
-    file_path = os.path.join(folder_path, file)
-    with open(file_path, "r", encoding="utf-8") as f:
-        lines = f.readlines()
-        # Store content for later processing
-        dataframes.append({"filename": file, "content": lines})
-
-# %%
-# Spread Header from Body
-for df in dataframes:
-    content = df["content"]
-    header_start = content.index("HEADER\n")
-    body_start = content.index("BODY\n")
+def split_header_body(content):
+    # Splits content into HEADER and BODY sections.
+    try:
+        header_start = content.index("HEADER\\n")
+        body_start = content.index("BODY\\n")
+    except ValueError:
+        raise ValueError("The file does not contain expected HEADER or BODY sections.")
     
-    header_data = content[header_start + 1 : body_start] # slicing between HEADER and BODY
-    body_data = content[body_start + 1 : ] # From BODY until the end of the file
+    header = content[header_start + 1 : body_start]
+    body = content[body_start + 1 :]
     
-    # Remove blank lines and extra spaces
-    header_data = [line.strip() for line in header_data if line.strip()]
-    body_data = [line.strip() for line in body_data if line.strip()]
+    # Clean up empty lines and extra spaces
+    header = [line.strip() for line in header if line.strip()]
+    body = [line.strip() for line in body if line.strip()]
     
-    df["header"] = header_data
-    df["body"] = body_data
-    
+    return header, body
 
-# %% [markdown]
-# ### Process HEADER
-# 1. Extract the relevant fields like `numero_sorteo`, `primer_premio`, `fecha_sorteo`, etc., using regular expressions.
-# 2. Create a DataFrame for the "sorteos" table.
 
-# %%
-# Extract the header data
-sorteos_data = []
-for df in dataframes:
-    header = df["header"]
-    numero_sorteo = re.search(r"NO. (\d+)", header[0]).group(1)
-    tipo_sorteo = re.search(r"SORTEO (\w+)", header[0], re.IGNORECASE).group(1)
-    fecha_sorteo = re.search(r"FECHA DEL SORTEO: ([\d/]+)", " ".join(header)).group(1)
-    fecha_caducidad = re.search(r"FECHA DE CADUCIDAD: ([\d/]+)", " ".join(header)).group(1)
-    premios = re.search(r"PRIMER PREMIO (\d+) \|\|\| SEGUNDO PREMIO (\d+) \|\|\| TERCER PREMIO (\d+)", " ".join(header))
-    primer_premio, segundo_premio, tercer_premio = premios.groups()
-    reintegros = re.search(r"REINTEGROS ([\d, ]+)", " ".join(header)).group(1).replace(" ", "")
+def process_header(header):
+    # Processes the HEADER and extracts relevant fields.
+    try:
+        numero_sorteo = re.search(r"NO. (\\d+)", header[0]).group(1)
+        tipo_sorteo = re.search(r"SORTEO (\\w+)", header[0], re.IGNORECASE).group(1)
+        fecha_sorteo = re.search(r"FECHA DEL SORTEO: ([\\d/]+)", " ".join(header)).group(1)
+        fecha_caducidad = re.search(r"FECHA DE CADUCIDAD: ([\\d/]+)", " ".join(header)).group(1)
+        premios = re.search(r"PRIMER PREMIO (\\d+) \\|\\|\\| SEGUNDO PREMIO (\\d+) \\|\\|\\| TERCER PREMIO (\\d+)", " ".join(header))
+        primer_premio, segundo_premio, tercer_premio = premios.groups()
+        reintegros = re.search(r"REINTEGROS ([\\d, ]+)", " ".join(header)).group(1).replace(" ", "")
+    except AttributeError:
+        raise ValueError("The HEADER does not contain the expected format.")
     
-    sorteos_data.append({
-        "numero_sorteo": numero_sorteo,
+    return {
+        "numero_sorteo": int(numero_sorteo),
         "tipo_sorteo": tipo_sorteo,
         "fecha_sorteo": fecha_sorteo,
         "fecha_caducidad": fecha_caducidad,
-        "primer_premio": primer_premio,
-        "segundo_premio": segundo_premio,
-        "tercer_premio": tercer_premio,
+        "primer_premio": int(primer_premio),
+        "segundo_premio": int(segundo_premio),
+        "tercer_premio": int(tercer_premio),
         "reintegros": reintegros
-    })
+    }
 
-sorteos_df = pd.DataFrame(sorteos_data)
 
-# Transform the column 'reintegros' into 3 different columns for better analysis
-sorteos_df[[
-    'reintegro_primer_premio', 
-    'reintegro_segundo_premio', 
-    'reintegro_tercer_premio'
-    ]] = sorteos_df['reintegros'].str.split(',', expand=True)
-
-# Convert the columns into a proper type
-sorteos_df['numero_sorteo'] = sorteos_df['numero_sorteo'].astype(int)
-sorteos_df['tipo_sorteo'] = sorteos_df['tipo_sorteo'].astype(str)
-sorteos_df['primer_premio'] = sorteos_df['primer_premio'].astype(int)
-sorteos_df['segundo_premio'] = sorteos_df['segundo_premio'].astype(int)
-sorteos_df['tercer_premio'] = sorteos_df['tercer_premio'].astype(int)
-sorteos_df['reintegro_primer_premio'] = sorteos_df['reintegro_primer_premio'].astype(int)
-sorteos_df['reintegro_segundo_premio'] = sorteos_df['reintegro_segundo_premio'].astype(int)
-sorteos_df['reintegro_tercer_premio'] = sorteos_df['reintegro_tercer_premio'].astype(int)
-
-# Remove the 'reintegros' column
-sorteos_df.drop(columns=['reintegros'], inplace=True)
-
-sorteos_df
-
-# %% [markdown]
-# ### Process BODY
-# 1. Split the data into `premios`, `terminaciones`, and `combinaciones_especiales`.
-# 2. Identify reward patterns (`numero_premiado`, `letras`, `monto`) and `vendedor`.
-
-# %%
-premios_data = []
-
-for df in dataframes:
-    body = df["body"]
+def process_body(body):
+    # Processes the BODY and extracts relevant fields.
+    premios_data = []
     for line in body:
-        match = re.match(r"(\d+)\s+(\w+)\s+\.+\s+([\d,]+\.?\d*)", line)
+        match = re.match(r"(\\d+)\\s+(\\w+)\\s+\\.\\.\\.\\s+([\\d,]+\\.?\\d*)", line)
         if match:
             numero_premiado, letras, monto = match.groups()
             vendedor = None
             if "VENDIDO POR" in line:
                 vendedor = line.split("VENDIDO POR")[1].strip()
-                
             premios_data.append({
-                "numero_sorteo": df["filename"], # # You can map this with `numero_sorteo`
                 "numero_premiado": numero_premiado,
                 "letras": letras,
-                "monto": monto.replace(",", ""),
+                "monto": float(monto.replace(",", "")),
                 "vendido_por": vendedor
             })
         else:
-            print(f"Línea ignorada en {df['filename']}: {line}")
-premios_df = pd.DataFrame(premios_data)
-premios_df['numero_sorteo'] = premios_df['numero_sorteo'].str.extract(r'no\._(\d+)', expand=False)
-premios_df
-
-# %%
-premios_df.info()
+            print(f"Ignored line: {line}")
+    return premios_data
 
 
+def transform(folder_path, output_folder="./processed"):
+    """Orchestrates the complete transformation process and exports to CSV."""
+    # Read and process files
+    dataframes = read_files(folder_path)
+    sorteos = []
+    premios = []
+
+    for df in dataframes:
+        header, body = split_header_body(df["content"])
+
+        # Process HEADER
+        sorteos.append(process_header(header))
+
+        # Process BODY
+        body_data = process_body(body)
+        for premio in body_data:
+            premio["numero_sorteo"] = sorteos[-1]["numero_sorteo"]  # Map with the draw number
+            premios.append(premio)
+
+    # Convert results to DataFrames
+    sorteos_df = pd.DataFrame(sorteos)
+    premios_df = pd.DataFrame(premios)
+
+    # Ensure the output folder exists
+    os.makedirs(output_folder, exist_ok=True)
+
+    # Export DataFrames to CSV
+    sorteos_csv = os.path.join(output_folder, "sorteos.csv")
+    premios_csv = os.path.join(output_folder, "premios.csv")
+    sorteos_df.to_csv(sorteos_csv, index=False)
+    premios_df.to_csv(premios_csv, index=False)
+
+    print(f"Exported sorteos to {sorteos_csv}")
+    print(f"Exported premios to {premios_csv}")
+
+    return sorteos_csv, premios_csv
