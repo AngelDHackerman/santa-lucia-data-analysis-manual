@@ -1,4 +1,7 @@
-from modules.ETL.transformer import transform
+from modules.ETL.extract import extract_lottery_data
+from modules.ETL.transformer import read_files, split_header_body, process_header, process_body, transform
+from modules.ETL.loader import connect_to_db, load_csv_to_table, close_db_connection
+
 
 # Run the transformer and generate CSV files
 sorteos_csv, premios_csv = transform("./miscellaneous")
