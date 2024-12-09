@@ -57,7 +57,7 @@ def extract_lottery_data(lottery_number, output_folder="./Data/raw/"):
         os.makedirs(output_folder, exist_ok=True)
 
         # Save data to a .txt file
-        output_path = os.path.join(output_folder, f"results_raw_lottery_id_{lottery_number}_{header_filename}.txt")
+        output_path = os.path.join(output_folder, f"results_raw_lottery_url_id_{lottery_number}_{header_filename}.txt")
         with open(output_path, "w", encoding="utf-8") as file:
             file.write("HEADER\n")
             file.write(header_text + "\n\n")
