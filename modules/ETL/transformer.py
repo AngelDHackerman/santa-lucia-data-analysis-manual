@@ -79,7 +79,7 @@ def process_body(body):
 
 
 def transform(folder_path, output_folder="./processed"):
-    """Orchestrates the complete transformation process and exports to CSV."""
+    # Orchestrates the complete transformation process and exports to CSV.
     # Read and process files
     dataframes = read_files(folder_path)
     sorteos = []
