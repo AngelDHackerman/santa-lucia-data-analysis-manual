@@ -1,4 +1,4 @@
-from transformer import transform
+from modules.ETL.transformer import transform
 
 # Run the transformer and generate CSV files
 sorteos_csv, premios_csv = transform("./miscellaneous")
