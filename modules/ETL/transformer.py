@@ -8,6 +8,7 @@ def read_files(folder_path):
     # Reads all files starting with 'results_raw' from a folder.
     files = [f for f in os.listdir(folder_path) if f.startswith("results_raw")]
     dataframes = []
+    # Add the file name and it's content to a dictionary "dataframes"
     for file in files:
         with open(os.path.join(folder_path, file), "r", encoding="utf-8") as f:
             lines = f.readlines()
@@ -34,40 +35,40 @@ def split_header_body(content):
     return header, body
 
 # Procesar cada archivo en dataframes
-for df in dataframes:
-    try:
-        print(f"Processing file: {df['filename']}")
-        header, body = split_header_body(df["content"])
-        print("Header:", header)
-        print("Body:", body[:5])  # Mostrar solo las primeras 5 líneas del body
-        print("-----")
-    except ValueError as e:
-        print(f"Error processing file {df['filename']}: {e}")
-
-
-# def process_header(header):
-#     # Processes the HEADER and extracts relevant fields.
+# for df in dataframes:
 #     try:
-#         numero_sorteo = re.search(r"NO. (\\d+)", header[0]).group(1)
-#         tipo_sorteo = re.search(r"SORTEO (\\w+)", header[0], re.IGNORECASE).group(1)
-#         fecha_sorteo = re.search(r"FECHA DEL SORTEO: ([\\d/]+)", " ".join(header)).group(1)
-#         fecha_caducidad = re.search(r"FECHA DE CADUCIDAD: ([\\d/]+)", " ".join(header)).group(1)
-#         premios = re.search(r"PRIMER PREMIO (\\d+) \\|\\|\\| SEGUNDO PREMIO (\\d+) \\|\\|\\| TERCER PREMIO (\\d+)", " ".join(header))
-#         primer_premio, segundo_premio, tercer_premio = premios.groups()
-#         reintegros = re.search(r"REINTEGROS ([\\d, ]+)", " ".join(header)).group(1).replace(" ", "")
-#     except AttributeError:
-#         raise ValueError("The HEADER does not contain the expected format.")
+#         print(f"Processing file: {df['filename']}")
+#         header, body = split_header_body(df["content"])
+#         print("Header:", header)
+#         print("Body:", body[:5])  # Mostrar solo las primeras 5 líneas del body
+#         print("-----")
+#     except ValueError as e:
+#         print(f"Error processing file {df['filename']}: {e}")
+
+
+def process_header(header):
+    # Processes the HEADER and extracts relevant fields.
+    try:
+        numero_sorteo = re.search(r"NO. (\\d+)", header[0]).group(1)
+        tipo_sorteo = re.search(r"SORTEO (\\w+)", header[0], re.IGNORECASE).group(1)
+        fecha_sorteo = re.search(r"FECHA DEL SORTEO: ([\\d/]+)", " ".join(header)).group(1)
+        fecha_caducidad = re.search(r"FECHA DE CADUCIDAD: ([\\d/]+)", " ".join(header)).group(1)
+        premios = re.search(r"PRIMER PREMIO (\\d+) \\|\\|\\| SEGUNDO PREMIO (\\d+) \\|\\|\\| TERCER PREMIO (\\d+)", " ".join(header))
+        primer_premio, segundo_premio, tercer_premio = premios.groups()
+        reintegros = re.search(r"REINTEGROS ([\\d, ]+)", " ".join(header)).group(1).replace(" ", "")
+    except AttributeError:
+        raise ValueError("The HEADER does not contain the expected format.")
     
-#     return {
-#         "numero_sorteo": int(numero_sorteo),
-#         "tipo_sorteo": tipo_sorteo,
-#         "fecha_sorteo": fecha_sorteo,
-#         "fecha_caducidad": fecha_caducidad,
-#         "primer_premio": int(primer_premio),
-#         "segundo_premio": int(segundo_premio),
-#         "tercer_premio": int(tercer_premio),
-#         "reintegros": reintegros
-#     }
+    return {
+        "numero_sorteo": int(numero_sorteo),
+        "tipo_sorteo": tipo_sorteo,
+        "fecha_sorteo": fecha_sorteo,
+        "fecha_caducidad": fecha_caducidad,
+        "primer_premio": int(primer_premio),
+        "segundo_premio": int(segundo_premio),
+        "tercer_premio": int(tercer_premio),
+        "reintegros": reintegros
+    }
 
 
 # def process_body(body):
