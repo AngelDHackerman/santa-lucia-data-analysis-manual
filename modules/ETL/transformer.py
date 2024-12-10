@@ -25,7 +25,7 @@ def split_header_body(content):
         body_start = content_cleaned.index("BODY")
     except ValueError:
         print("Content does not contain 'HEADER' or 'BODY'. Debugging content:")
-        print(content_cleaned)  # Imprime el contenido para depuración
+        # print(content_cleaned)  # Imprime el contenido para depuración
         raise ValueError("The file does not contain expected HEADER or BODY sections.")
     
     header = content_cleaned[header_start + 1 : body_start]
@@ -35,8 +35,8 @@ def split_header_body(content):
 
 
 def process_header(header):
-    print("Debugging header content:")
-    print(header)  # Verificar el contenido del header
+    # print("Debugging header content:")
+    # print(header)  # Verificar el contenido del header
     try:
         numero_sorteo = re.search(r"NO. (\d+)", header[0]).group(1)
         tipo_sorteo = re.search(r"SORTEO (\w+)", header[0], re.IGNORECASE).group(1)
@@ -65,22 +65,37 @@ def process_header(header):
 def process_body(body):
     # Processes the BODY and extracts relevant fields.
     premios_data = []
+    current_vendedor = None  # Para asociar "VENDIDO POR" con el premio anterior
+
+    print("Processing BODY:")
     for line in body:
-        match = re.match(r"(\\d+)\\s+(\\w+)\\s+\\.\\.\\.\\s+([\\d,]+\\.?\\d*)", line)
+        line = line.strip()  # Eliminar espacios en blanco al inicio y final
+        print(f"Processing line: {line}")
+        
+        # Intentar coincidir con una línea de premio
+        match = re.match(r"(\d+)\s+(\w+)\s+\.+\s+([\d,]+\.?\d*)", line)
         if match:
             numero_premiado, letras, monto = match.groups()
-            vendedor = None
-            if "VENDIDO POR" in line:
-                vendedor = line.split("VENDIDO POR")[1].strip()
+            monto = float(monto.replace(",", ""))  # Limpiar el monto
             premios_data.append({
                 "numero_premiado": numero_premiado,
                 "letras": letras,
-                "monto": float(monto.replace(",", "")),
-                "vendido_por": vendedor
+                "monto": monto,
+                "vendido_por": current_vendedor,  # Asociar el vendedor actual (si existe)
             })
+            current_vendedor = None  # Resetear el vendedor después de asignarlo
+        elif "VENDIDO POR" in line:
+            # Capturar vendedor para asociarlo con el premio anterior
+            current_vendedor = line.split("VENDIDO POR")[1].strip()
         else:
+            # Ignorar las líneas que no coinciden (para depuración)
             print(f"Ignored line: {line}")
+
+    print(f"Premios processed: {len(premios_data)}")
     return premios_data
+
+
+
 
 
 def transform(folder_path, output_folder="./processed"):
@@ -108,6 +123,10 @@ def transform(folder_path, output_folder="./processed"):
 
     # Ensure the output folder exists
     os.makedirs(output_folder, exist_ok=True)
+    
+    # reorder columns
+    columns_order = ["numero_sorteo", "numero_premiado", "letras", "monto", "vendido_por"]
+    premios_df = pd.DataFrame(premios, columns=columns_order)
 
     # Export DataFrames to CSV
     sorteos_csv = os.path.join(output_folder, "sorteos.csv")
@@ -117,5 +136,7 @@ def transform(folder_path, output_folder="./processed"):
 
     print(f"Exported sorteos to {sorteos_csv}")
     print(f"Exported premios to {premios_csv}")
+    # print(header)
+    
 
     return sorteos_csv, premios_csv
