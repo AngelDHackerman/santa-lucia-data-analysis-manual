@@ -120,6 +120,13 @@ def transform(folder_path, output_folder="./processed"):
     # Convert results to DataFrames
     sorteos_df = pd.DataFrame(sorteos)
     premios_df = pd.DataFrame(premios)
+    
+    # Transform the column 'reintegros' into 3 different columns for better analysis
+    sorteos_df[[
+        'reintegro_primer_premio', 
+        'reintegro_segundo_premio', 
+        'reintegro_tercer_premio'
+        ]] = sorteos_df['reintegros'].str.split(',', expand=True)
 
     # Ensure the output folder exists
     os.makedirs(output_folder, exist_ok=True)
