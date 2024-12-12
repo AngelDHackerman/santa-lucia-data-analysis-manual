@@ -131,11 +131,14 @@ def transform(folder_path, output_folder="./processed"):
         'reintegro_segundo_premio', 
         'reintegro_tercer_premio'
         ]] = sorteos_df['reintegros'].str.split(',', expand=True)
+    
+    # Remove the original 'reintegros' column
+    sorteos_df.drop(columns=['reintegros'], inplace=True)
 
     # Ensure the output folder exists
     os.makedirs(output_folder, exist_ok=True)
     
-    # reorder columns
+    # reorder columns for "premios" (body dataframe)
     columns_order = ["numero_sorteo", "numero_premiado", "letras", "monto", "vendido_por"]
     premios_df = pd.DataFrame(premios, columns=columns_order)
 

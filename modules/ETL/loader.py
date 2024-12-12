@@ -61,35 +61,30 @@ def connect_to_db(user, password, host, database, port=3306):
     
 def load_csv_to_table(connection, csv_file, table_name):
     """
-    Load a CSV file into a specific database table.
-    
-    Args:
-        connection: The pymysql connection object.
-        csv_file (str): Path to the CSV file.
-        table_name (str): Name of the table in the database.
-        
-    Returns:
-        None
+    Load a CSV file into a specific database table using batched inserts.
     """
     try:
         # Read CSV into DataFrame
         df = pd.read_csv(csv_file)
         print(f"Loaded CSV {csv_file} with {len(df)} rows.")
         
-        # Insert DataFrame rows into the table
+        # Generate SQL and batch insert
+        columns = ", ".join(df.columns)
+        placeholders = ", ".join(["%s"] * len(df.columns))
+        sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
+        
+        # Convert DataFrame to list of tuples for efficient insertion
+        data = [tuple(row) for row in df.to_numpy()]
+        
         with connection.cursor() as cursor:
-            for _, row in df.iterrows():
-                # Dynamically create SQL INSERT statement
-                columns = ", ".join(row.index)
-                placeholders = ", ".join(["%s"] * len(row))
-                sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
-                cursor.execute(sql, tuple(row))
+            cursor.executemany(sql, data)  # Batch insert
         connection.commit()
         print(f"Data from {csv_file} loaded into table {table_name}.")
     except Exception as e:
         print(f"Error loading CSV {csv_file} into table {table_name}: {e}")
         connection.rollback()
         raise
+
     
 def close_db_connection(connection):
     """
@@ -106,7 +101,9 @@ def close_db_connection(connection):
         print("Database connection closed.")
         
 def start_upload_csv_file(csv_file, table_name):
-    
+    """
+    Orchestrates the complete upload process of the CSV to the database.
+    """
     # Get the credentials for the AWS Data base
     username, password, host, db_name = get_secret()
     
@@ -118,3 +115,4 @@ def start_upload_csv_file(csv_file, table_name):
         
     # Close connection
     close_db_connection(connection)
+    
