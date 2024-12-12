@@ -2,8 +2,6 @@ import os
 import pandas as pd
 import re
 
-dir = "./Data/raw"
-
 def read_files(folder_path):
     # Reads all files starting with 'results_raw' from a folder.
     files = [f for f in os.listdir(folder_path) if f.startswith("results_raw")]
@@ -141,6 +139,17 @@ def transform(folder_path, output_folder="./processed"):
     # reorder columns for "premios" (body dataframe)
     columns_order = ["numero_sorteo", "numero_premiado", "letras", "monto", "vendido_por"]
     premios_df = pd.DataFrame(premios, columns=columns_order)
+    
+    # Validate sorteos DataFrame
+    if sorteos_df.isnull().values.any():
+        print("Null values detected in sorteos.csv. Removing invalid rows")
+        sorteos_df.dropna(inplace=True) # Remove rows with null values
+        
+    # Validate premios DataFrame
+    if premios_df.isnull().values.any():
+        print("Null values detected in premios.csv. Filling missing data.")
+        premios_df['vendido_por'] = premios_df['vendido_por'].fillna("Vendedor desconocido")  # Replace nulls with default value
+        premios_df.dropna(inplace=True) # Remove rows with null values
 
     # Export DataFrames to CSV
     sorteos_csv = os.path.join(output_folder, "sorteos.csv")
