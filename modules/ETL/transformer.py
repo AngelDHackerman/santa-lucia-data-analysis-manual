@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import re
+import csv
 
 def read_files(folder_path):
     # Reads all files starting with 'results_raw' from a folder.
@@ -97,7 +98,23 @@ def process_body(body):
     return premios_data
 
 
-
+# Split 'vendido_por' into 'vendedor', 'ciudad', and 'departamento'
+def split_vendido_por_column(df):
+    """
+    Splits the 'vendido_por' column into 'vendedor', 'ciudad', and 'departamento'.
+    
+    Args:
+        df (pd.DataFrame): DataFrame with 'vendido_por' column.
+        
+    Returns:
+        pd.DataFrame: DataFrame with new columns and 'vendido_por' removed.
+    """
+    split_data = df['vendido_por'].str.split(r',', expand=True)
+    df['vendedor'] = split_data[0].str.strip()  # Extract vendor name
+    df['ciudad'] = split_data[1].str.strip() if split_data.shape[1] > 1 else None  # Extract city
+    df['departamento'] = split_data[2].str.strip() if split_data.shape[1] > 2 else None  # Extract department
+    df.drop(columns=['vendido_por'], inplace=True)  # Remove original column
+    return df
 
 
 def transform(folder_path, output_folder="./processed"):
@@ -132,9 +149,6 @@ def transform(folder_path, output_folder="./processed"):
     
     # Remove the original 'reintegros' column
     sorteos_df.drop(columns=['reintegros'], inplace=True)
-
-    # Ensure the output folder exists
-    os.makedirs(output_folder, exist_ok=True)
     
     # reorder columns for "premios" (body dataframe)
     columns_order = ["numero_sorteo", "numero_premiado", "letras", "monto", "vendido_por"]
@@ -148,14 +162,28 @@ def transform(folder_path, output_folder="./processed"):
     # Validate premios DataFrame
     if premios_df.isnull().values.any():
         print("Null values detected in premios.csv. Filling missing data.")
-        premios_df['vendido_por'] = premios_df['vendido_por'].fillna("Vendedor desconocido")  # Replace nulls with default value
+        premios_df['vendido_por'] = premios_df['vendido_por'].fillna("N/A")  # Replace nulls with default value
         premios_df.dropna(inplace=True) # Remove rows with null values
+        
+    # Split "Vendido_por" column into vendedor, ciudad and departamento
+    premios_df = split_vendido_por_column(premios_df)
+    
+    # Handle null for new columns 
+    premios_df['vendedor'] = premios_df['vendedor'].fillna("Vendedor desconocido")
+    premios_df['ciudad'] = premios_df['ciudad'].fillna("N/A")
+    premios_df['departamento'] = premios_df['departamento'].fillna("N/A")
 
+    # If city is "DE ESTA CAPITAL", then assign the "Departamento" as "Guatemala"
+    premios_df.loc[premios_df['ciudad'].str.upper() == "DE ESTA CAPITAL", 'departamento'] = "GUATEMALA"
+
+    # Ensure the output folder exists
+    os.makedirs(output_folder, exist_ok=True)
+    
     # Export DataFrames to CSV
     sorteos_csv = os.path.join(output_folder, "sorteos.csv")
     premios_csv = os.path.join(output_folder, "premios.csv")
     sorteos_df.to_csv(sorteos_csv, index=False)
-    premios_df.to_csv(premios_csv, index=False)
+    premios_df.to_csv(premios_csv, index=False, quotechar='', quoting=csv.QUOTE_NONE, escapechar='\\')
 
     print(f"Exported sorteos to {sorteos_csv}")
     print(f"Exported premios to {premios_csv}")
