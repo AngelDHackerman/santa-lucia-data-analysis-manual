@@ -104,3 +104,17 @@ def close_db_connection(connection):
     if connection:
         connection.close()
         print("Database connection closed.")
+        
+def start_upload_csv_file(csv_file, table_name):
+    
+    # Get the credentials for the AWS Data base
+    username, password, host, db_name = get_secret()
+    
+    # Connect to the Data base
+    connection = connect_to_db(username, password, host, db_name)
+    
+    # Load CSV to table
+    load_csv_to_table(connection, csv_file, table_name)
+        
+    # Close connection
+    close_db_connection(connection)
