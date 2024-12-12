@@ -98,7 +98,6 @@ def process_body(body):
     return premios_data
 
 
-# Split 'vendido_por' into 'vendedor', 'ciudad', and 'departamento'
 def split_vendido_por_column(df):
     """
     Splits the 'vendido_por' column into 'vendedor', 'ciudad', and 'departamento'.
@@ -114,6 +113,31 @@ def split_vendido_por_column(df):
     df['ciudad'] = split_data[1].str.strip() if split_data.shape[1] > 1 else None  # Extract city
     df['departamento'] = split_data[2].str.strip() if split_data.shape[1] > 2 else None  # Extract department
     df.drop(columns=['vendido_por'], inplace=True)  # Remove original column
+    return df
+
+
+def validate_and_clean_data(df):
+    """
+    Validates and cleans data types in a DataFrame.
+    
+    Args:
+        df (pd.DataFrame): DataFrame to validate and clean.
+        
+    Returns:
+        pd.DataFrame: Cleaned DataFrame with correct types.
+    """
+    # Reemplazar valores como "N/A" o similares por NaN
+    df.replace({"N/A": None, "n/a": None, "": None}, inplace=True)
+    
+    # Validate and convert types, also replace null values with "N/A"
+    df['numero_sorteo'] = pd.to_numeric(df['numero_sorteo'], errors='coerce').fillna(0).astype(int)
+    df['numero_premiado'] = df['numero_premiado'].astype(str)
+    df['letras'] = df['letras'].astype(str)
+    df['monto'] = pd.to_numeric(df['monto'], errors='coerce').fillna(0.0).astype(float)
+    df['vendedor'] = df['vendedor'].fillna("N/A").astype(str)
+    df['ciudad'] = df['ciudad'].fillna("N/A").astype(str)
+    df['departamento'] = df['departamento'].fillna("N/A").astype(str)
+
     return df
 
 
@@ -167,14 +191,16 @@ def transform(folder_path, output_folder="./processed"):
         
     # Split "Vendido_por" column into vendedor, ciudad and departamento
     premios_df = split_vendido_por_column(premios_df)
-    
-    # Handle null for new columns 
-    premios_df['vendedor'] = premios_df['vendedor'].fillna("Vendedor desconocido")
-    premios_df['ciudad'] = premios_df['ciudad'].fillna("N/A")
-    premios_df['departamento'] = premios_df['departamento'].fillna("N/A")
 
     # If city is "DE ESTA CAPITAL", then assign the "Departamento" as "Guatemala"
     premios_df.loc[premios_df['ciudad'].str.upper() == "DE ESTA CAPITAL", 'departamento'] = "GUATEMALA"
+    
+    # Validate and clean data types
+    premios_df = validate_and_clean_data(premios_df)
+    
+    # validate dates in sorteo.csv
+    sorteos_df['fecha_sorteo'] = pd.to_datetime(sorteos_df['fecha_sorteo'], format='%d/%m/%Y', errors='coerce')
+    sorteos_df['fecha_caducidad'] = pd.to_datetime(sorteos_df['fecha_caducidad'], format='%d/%m/%Y', errors='coerce')
 
     # Ensure the output folder exists
     os.makedirs(output_folder, exist_ok=True)
