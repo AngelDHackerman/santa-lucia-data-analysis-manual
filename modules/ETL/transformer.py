@@ -87,6 +87,10 @@ def process_body(body):
         elif "VENDIDO POR" in line:
             # Capturar vendedor para asociarlo con el premio anterior
             current_vendedor = line.split("VENDIDO POR")[1].strip()
+        elif "NO VENDIDO" in line:
+            # Asignar "NO VENDIDO" al premio anterior si existe
+            if premios_data:
+                premios_data[-1]["vendido_por"] = "NO VENDIDO"
         else:
             # Ignorar las líneas que no coinciden (para depuración)
             print(f"Ignored line: {line}")
