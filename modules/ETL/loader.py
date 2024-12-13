@@ -3,6 +3,7 @@ import pymysql
 import json
 import boto3
 from botocore.exceptions import ClientError
+import re
 
 # Get the secret from AWS Secrets Manager
 def get_secret():
@@ -63,6 +64,10 @@ def load_csv_to_table(connection, csv_file, table_name):
     """
     Load a CSV file into a specific database table using batched inserts.
     """
+    # validate table name 
+    if not re.match(r"^[a-zA-Z0-9_]+$", table_name):
+        raise ValueError("Invalid table name. Only alphanumeric characters and underscores are allowed.")
+    
     try:
         # Read CSV into DataFrame
         df = pd.read_csv(csv_file)
@@ -77,7 +82,7 @@ def load_csv_to_table(connection, csv_file, table_name):
         data = [tuple(row) for row in df.to_numpy()]
         
         with connection.cursor() as cursor:
-            cursor.executemany(sql, data)  # Batch insert
+            cursor.executemany(sql, data)  # Batch insert, optimizes performance when working with large volumes of data.
         connection.commit()
         print(f"Data from {csv_file} loaded into table {table_name}.")
     except Exception as e:
@@ -104,15 +109,16 @@ def start_upload_csv_file(csv_file, table_name):
     """
     Orchestrates the complete upload process of the CSV to the database.
     """
-    # Get the credentials for the AWS Data base
-    username, password, host, db_name = get_secret()
-    
-    # Connect to the Data base
-    connection = connect_to_db(username, password, host, db_name)
-    
-    # Load CSV to table
-    load_csv_to_table(connection, csv_file, table_name)
+    try:
+        # Get the credentials for the AWS Data base
+        username, password, host, db_name = get_secret()
         
-    # Close connection
-    close_db_connection(connection)
+        # Connect to the Data base
+        connection = connect_to_db(username, password, host, db_name)
+        
+        # Load CSV to table
+        load_csv_to_table(connection, csv_file, table_name)
+    
+    finally:
+        close_db_connection(connection)
     
