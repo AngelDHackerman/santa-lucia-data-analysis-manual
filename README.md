@@ -19,3 +19,7 @@ Xpaths "Listado de premios" https://loteria.org.gt/site/award
 
 
 working into the data base in AWS
+
+### How this started:
+
+When a man in his 20s, living alone, with no money and only a broken heart, starts to think a lot...
