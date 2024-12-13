@@ -4,6 +4,11 @@ import json
 import boto3
 from botocore.exceptions import ClientError
 import re
+import logging
+import os
+from tqdm import tqdm # progress bar
+
+logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO").upper())
 
 # Get the secret from AWS Secrets Manager
 def get_secret():
@@ -57,10 +62,10 @@ def connect_to_db(user, password, host, database, port=3306):
         print("Database connection established.")
         return connection
     except pymysql.MySQLError as e:
-        print(f"Error connecting to database: {e}")
+        logging.error(f"Error connecting to database: {e}")
         raise
     
-def load_csv_to_table(connection, csv_file, table_name):
+def load_csv_to_table(connection, csv_file, table_name, batch_size=1000):
     """
     Load a CSV file into a specific database table using batched inserts.
     """
@@ -71,22 +76,23 @@ def load_csv_to_table(connection, csv_file, table_name):
     try:
         # Read CSV into DataFrame
         df = pd.read_csv(csv_file)
-        print(f"Loaded CSV {csv_file} with {len(df)} rows.")
+        logging.info(f"Loaded CSV {csv_file} with {len(df)} rows.")
         
-        # Generate SQL and batch insert
+        # Generate SQL and Convert DataFrame to list of tuples for efficient insertion
         columns = ", ".join(df.columns)
         placeholders = ", ".join(["%s"] * len(df.columns))
         sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
-        
-        # Convert DataFrame to list of tuples for efficient insertion
         data = [tuple(row) for row in df.to_numpy()]
         
+        # Batch insert with progress bar
         with connection.cursor() as cursor:
-            cursor.executemany(sql, data)  # Batch insert, optimizes performance when working with large volumes of data.
+            for i in tqdm(range(0, len(data), batch_size), desc=f"Loading {table_name}"):
+                batch = data[i:i + batch_size]
+                cursor.executemany(sql, batch)  # Batch insert, optimizes performance when working with large volumes of data.
         connection.commit()
-        print(f"Data from {csv_file} loaded into table {table_name}.")
+        logging.info(f"Data from {csv_file} loaded into table {table_name}.")
     except Exception as e:
-        print(f"Error loading CSV {csv_file} into table {table_name}: {e}")
+        logging.error(f"Error loading CSV {csv_file} into table {table_name}: {e}")
         connection.rollback()
         raise
 
