@@ -201,15 +201,31 @@ def transform(folder_path, output_folder="./processed"):
     # validate dates in sorteo.csv
     sorteos_df['fecha_sorteo'] = pd.to_datetime(sorteos_df['fecha_sorteo'], format='%d/%m/%Y', errors='coerce')
     sorteos_df['fecha_caducidad'] = pd.to_datetime(sorteos_df['fecha_caducidad'], format='%d/%m/%Y', errors='coerce')
+    
+    # Validate output columns 
+    required_columns_sorteos = ["numero_sorteo", "tipo_sorteo", "fecha_sorteo", "fecha_caducidad", 
+                                "primer_premio", "segundo_premio", "tercer_premio", 
+                                "reintegro_primer_premio", "reintegro_segundo_premio", "reintegro_tercer_premio"]
+    required_columns_premios = ["numero_sorteo", "numero_premiado", "letras", "monto", "vendedor", "ciudad", "departamento"]
+    
+    if not all (col in sorteos_df.columns for col in required_columns_sorteos):
+        raise ValueError("sorteos.csv does not contain all required columns.")
+    if not all (col in premios_df.columns for col in required_columns_premios):
+        raise ValueError("premios.csv does not contain all required columns.")
 
-    # Ensure the output folder exists
+    # Validate the output folder exists
     os.makedirs(output_folder, exist_ok=True)
     
     # Export DataFrames to CSV
     sorteos_csv = os.path.join(output_folder, "sorteos.csv")
     premios_csv = os.path.join(output_folder, "premios.csv")
-    sorteos_df.to_csv(sorteos_csv, index=False)
-    premios_df.to_csv(premios_csv, index=False, quotechar='', quoting=csv.QUOTE_NONE, escapechar='\\')
+    
+    sorteos_df.to_csv(sorteos_csv, index=False, quoting=csv.QUOTE_NONE, escapechar='\\')
+    premios_df.to_csv(premios_csv, index=False, quoting=csv.QUOTE_NONE, escapechar='\\')
+    
+    # These lines validate that the generated CSV files are readable and correctly formatted.
+    pd.read_csv(sorteos_csv, escapechar='\\')  # Ensures sorteos.csv is well-formatted
+    pd.read_csv(premios_csv, escapechar='\\')  # Ensures premios.csv is well-formatted
 
     print(f"Exported sorteos to {sorteos_csv}")
     print(f"Exported premios to {premios_csv}")
