@@ -34,36 +34,38 @@ def get_secret():
 
     # Parse the secret string into a dictionary
     secret = json.loads(get_secret_value_response['SecretString'])
-    return secret['username'], secret['password'], secret['host'], secret['db_name']
+    return secret['username'], secret['password'], secret['host'], secret['db_name'], secret['ssl_certificate']
 
-def connect_to_db(user, password, host, database, port=3306):
+def connect_to_db(user, password, host, database, port=3306, ssl_cert_path=None):
     """
-    Establish a connection to the database.
-    
-    Args:
-        user (str): Database user.
-        password (str): Database password.
-        host (str): Database host.
-        database (str): Database name.
-        port (int): Database port (default is 3306).
+    Establish a connection to the database with optional SSL.
+    """
+    try:   
+        if ssl_cert_path and not os.path.exists(ssl_cert_path):
+            raise FileNotFoundError(f"SSL certificate file not found: {ssl_cert_path}")
         
-    Returns:
-        connection: A pymysql connection object.
-    """
-    
-    try:        
+        ssl_params = {'ssl': {'ca': ssl_cert_path}} if ssl_cert_path else None     
         connection = pymysql.connect(
             user=user,
             password=password,
             host=host,
             database=database,
-            port=port
+            port=port,
+            ssl=ssl_params
         )
-        print("Database connection established.")
+        logging.info("Database connection established.")
+        
+        # Check SSL status
+        with connection.cursor() as cursor:
+            cursor.execute("SHOW STATUS LIKE 'Ssl_cipher';")
+            ssl_status = cursor.fetchone()
+            logging.info(f"SSL Cipher: {ssl_status[1] if ssl_status else 'None'}")
+        
         return connection
     except pymysql.MySQLError as e:
         logging.error(f"Error connecting to database: {e}")
         raise
+
     
 def load_csv_to_table(connection, csv_file, table_name, batch_size=1000):
     """
@@ -109,22 +111,32 @@ def close_db_connection(connection):
     """
     if connection:
         connection.close()
-        print("Database connection closed.")
+        logging.info("Database connection closed.")
         
 def start_upload_csv_file(csv_file, table_name):
     """
     Orchestrates the complete upload process of the CSV to the database.
     """
     try:
-        # Get the credentials for the AWS Data base
+        # Get database credentials
         username, password, host, db_name = get_secret()
         
-        # Connect to the Data base
-        connection = connect_to_db(username, password, host, db_name)
+        # Connect to the database
+        connection = connect_to_db(
+            user=username, 
+            password=password, 
+            host=host, 
+            database=db_name,
+            ssl_cert_path=os.getenv("SSL_CERT_PATH", "/default/path/to/rds-ca.pem")
+        )
         
         # Load CSV to table
         load_csv_to_table(connection, csv_file, table_name)
-    
+    except FileNotFoundError as e:
+        logging.error(f"Certificate error: {e}")
+        raise
+    except Exception as e:
+        logging.error(f"Error in upload process: {e}")
+        raise
     finally:
         close_db_connection(connection)
-    
