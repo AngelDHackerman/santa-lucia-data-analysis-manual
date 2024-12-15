@@ -62,13 +62,24 @@ def process_header(header):
 
 
 def process_body(body):
-    # Processes the BODY and extracts relevant fields.
+    """
+    Processes the BODY and extracts relevant fields.
+    
+    Args:
+        body (list): List of lines in the BODY section.
+    
+    Returns:
+        list: List of dictionaries with processed premios data.
+    """
     premios_data = []
-    current_vendedor = None  # Para asociar "VENDIDO POR" con el premio anterior
+    last_premio_index = None  # Índice del último premio procesado
 
     print("Processing BODY:")
-    for line in body:
+    for idx, line in enumerate(body):
         line = line.strip()  # Eliminar espacios en blanco al inicio y final
+        if not line:  # Ignorar líneas vacías
+            continue
+
         print(f"Processing line: {line}")
         
         # Intentar coincidir con una línea de premio
@@ -80,22 +91,30 @@ def process_body(body):
                 "numero_premiado": numero_premiado,
                 "letras": letras,
                 "monto": monto,
-                "vendido_por": current_vendedor,  # Asociar el vendedor actual (si existe)
+                "vendido_por": None,  # Por defecto, no tiene vendedor
+                "ciudad": None,       # Inicializa ciudad como None
+                "departamento": None  # Inicializa departamento como None
             })
-            current_vendedor = None  # Resetear el vendedor después de asignarlo
-        elif "VENDIDO POR" in line:
-            # Capturar vendedor para asociarlo con el premio anterior
-            current_vendedor = line.split("VENDIDO POR")[1].strip()
-        elif "NO VENDIDO" in line:
-            # Asignar "NO VENDIDO" al premio anterior si existe
-            if premios_data:
-                premios_data[-1]["vendido_por"] = "NO VENDIDO"
+            last_premio_index = len(premios_data) - 1  # Guarda el índice actual
+
+        elif "VENDIDO POR" in line and last_premio_index is not None:
+            # Si encontramos "VENDIDO POR", asignar al último premio
+            current_vendedor = line.split("VENDIDO POR", 1)[1].strip()
+            premios_data[last_premio_index]["vendido_por"] = current_vendedor
+
+        elif "NO VENDIDO" in line and last_premio_index is not None:
+            # Asignar "NO VENDIDO" con valores predeterminados
+            premios_data[last_premio_index]["vendido_por"] = "NO VENDIDO"
+            premios_data[last_premio_index]["ciudad"] = "N/A"
+            premios_data[last_premio_index]["departamento"] = "N/A"
+
         else:
             # Ignorar las líneas que no coinciden (para depuración)
             print(f"Ignored line: {line}")
 
     print(f"Premios processed: {len(premios_data)}")
     return premios_data
+
 
 
 def split_vendido_por_column(df):
