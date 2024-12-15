@@ -60,7 +60,6 @@ def process_header(header):
     }
 
 
-
 def process_body(body):
     """
     Processes the BODY and extracts relevant fields.

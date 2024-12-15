@@ -117,9 +117,17 @@ def start_upload_csv_file(csv_file, table_name):
     """
     Orchestrates the complete upload process of the CSV to the database.
     """
+    connection = None # Initialize connection
     try:
         # Get database credentials
-        username, password, host, db_name = get_secret()
+        username, password, host, db_name, ssl_certificate = get_secret()
+        
+        # Validate SSL certificate path
+        if not ssl_certificate:
+            ssl_certificate = os.getenv("SSL_CERT_PATH", "/default/path/to/rds-ca.pem")
+            
+        if not os.path.exists(ssl_certificate):
+            raise FileNotFoundError(f"SSL certificate file not found: {ssl_certificate}")
         
         # Connect to the database
         connection = connect_to_db(
@@ -127,7 +135,7 @@ def start_upload_csv_file(csv_file, table_name):
             password=password, 
             host=host, 
             database=db_name,
-            ssl_cert_path=os.getenv("SSL_CERT_PATH", "/default/path/to/rds-ca.pem")
+            ssl_cert_path=ssl_certificate
         )
         
         # Load CSV to table
