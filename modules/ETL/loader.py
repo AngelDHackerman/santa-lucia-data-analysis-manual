@@ -93,7 +93,16 @@ def load_csv_to_table(connection, csv_file, table_name, batch_size=1000):
         # Generate SQL and Convert DataFrame to list of tuples for efficient insertion
         columns = ", ".join(df.columns)
         placeholders = ", ".join(["%s"] * len(df.columns))
-        sql = f"INSERT IGNORE INTO {table_name} ({columns}) VALUES ({placeholders})"
+        # Adjust SQL query based on ignore_duplicate flag
+        # Generar SQL dinámicamente con ON DUPLICATE KEY UPDATE
+        update_columns = ", ".join([f"{col}=VALUES({col})" for col in df.columns])
+
+        sql = f"""
+            INSERT INTO {table_name} ({columns})
+            VALUES ({placeholders})
+            ON DUPLICATE KEY UPDATE {update_columns};
+        """
+
         data = [tuple(row) for row in df.to_numpy()]
         
         # Batch insert with progress bar
