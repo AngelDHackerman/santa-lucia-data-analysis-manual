@@ -113,7 +113,7 @@ def close_db_connection(connection):
         connection.close()
         logging.info("Database connection closed.")
         
-def start_upload_csv_file(csv_file, table_name):
+def start_upload_csv_file(csv_files_and_tables):
     """
     Orchestrates the complete upload process of the CSV to the database.
     """
@@ -138,8 +138,11 @@ def start_upload_csv_file(csv_file, table_name):
             ssl_cert_path=ssl_certificate
         )
         
-        # Load CSV to table
-        load_csv_to_table(connection, csv_file, table_name)
+        # Upload each CSV file to its respective table
+        for csv_file, table_name in csv_files_and_tables:
+            logging.info(f"Starting upload for {csv_file} to table {table_name}")
+            load_csv_to_table(connection, csv_file, table_name)
+            
     except FileNotFoundError as e:
         logging.error(f"Certificate error: {e}")
         raise

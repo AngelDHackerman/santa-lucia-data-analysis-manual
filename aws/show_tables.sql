@@ -1,6 +1,6 @@
 show TABLES;
 
-SELECT * FROM Body;
+SELECT * FROM Premios;
 
-SELECT * FROM Header;
+SELECT * FROM Sorteos;
 
