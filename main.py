@@ -1,7 +1,7 @@
 import os
 from modules.ETL.extract import extract_lottery_data
 from modules.ETL.transformer import transform
-from modules.ETL.loader import get_secret, connect_to_db, load_csv_to_table, close_db_connection
+from modules.ETL.loader import start_upload_multiple_csv_files
 
 def main():
     # Step 1: Extract
@@ -19,18 +19,16 @@ def main():
         print(f"Processing completed. CSVs generated:\n - Sorteos: {sorteos_csv}\n - Premios: {premios_csv}")
     except Exception as e:
         print(f"An error occurred during transformation: {e}")
-        return  # Exit on error
+        return  # Exit on error#
     
     # Step 3: Load data to database
     csv_files_and_tables = [
-        (sorteos_csv, "sorteos"),
-        (premios_csv, "premios")
+        (sorteos_csv, "Sorteos"),
+        (premios_csv, "Premios")
     ]
-    
     try:
-        from modules.ETL.loader import start_upload_multiple_csv_files
         start_upload_multiple_csv_files(csv_files_and_tables)
-        print("All CSV files successfully uploaded to the database.")
+        print(f"All CSV files successfully uploaded to the database")
     except Exception as e:
         print(f"An error occurred during upload: {e}")
 

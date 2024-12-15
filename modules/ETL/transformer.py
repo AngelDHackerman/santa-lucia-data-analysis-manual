@@ -103,9 +103,9 @@ def process_body(body):
 
         elif "NO VENDIDO" in line and last_premio_index is not None:
             # Asignar "NO VENDIDO" con valores predeterminados
-            premios_data[last_premio_index]["vendido_por"] = "NO VENDIDO"
-            premios_data[last_premio_index]["ciudad"] = "N/A"
-            premios_data[last_premio_index]["departamento"] = "N/A"
+            premios_data[last_premio_index]["vendido_por"] = None # Adding "None" for compatilibility with SQL 
+            premios_data[last_premio_index]["ciudad"] = None
+            premios_data[last_premio_index]["departamento"] = None
 
         else:
             # Ignorar las líneas que no coinciden (para depuración)
@@ -152,9 +152,9 @@ def validate_and_clean_data(df):
     df['numero_premiado'] = df['numero_premiado'].astype(str)
     df['letras'] = df['letras'].astype(str)
     df['monto'] = pd.to_numeric(df['monto'], errors='coerce').fillna(0.0).astype(float)
-    df['vendedor'] = df['vendedor'].fillna("N/A").astype(str)
-    df['ciudad'] = df['ciudad'].fillna("N/A").astype(str)
-    df['departamento'] = df['departamento'].fillna("N/A").astype(str)
+    df['vendedor'] = df['vendedor'].astype(str) # this keeps the value as None for compatibility
+    df['ciudad'] = df['ciudad'].astype(str)
+    df['departamento'] = df['departamento'].astype(str)
 
     return df
 
@@ -230,6 +230,10 @@ def transform(folder_path, output_folder="./processed"):
         raise ValueError("sorteos.csv does not contain all required columns.")
     if not all (col in premios_df.columns for col in required_columns_premios):
         raise ValueError("premios.csv does not contain all required columns.")
+    
+    # Validate Null vlues
+    if premios_df.isnull().values.any():
+        print("Warning: There are null values ​​in awards_df. This will be logged as NULL in MySQL.")
 
     # Validate the output folder exists
     os.makedirs(output_folder, exist_ok=True)
