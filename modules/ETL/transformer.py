@@ -103,8 +103,8 @@ def process_body(body):
 
         elif "NO VENDIDO" in line and last_premio_index is not None:
             # Asignar "NO VENDIDO" con valores predeterminados
-            premios_data[last_premio_index]["vendido_por"] = None # Adding "None" for compatilibility with SQL 
-            premios_data[last_premio_index]["ciudad"] = None
+            premios_data[last_premio_index]["vendido_por"] = "NO VENDIDO" 
+            premios_data[last_premio_index]["ciudad"] = None # Adding "None" for compatilibility with SQL 
             premios_data[last_premio_index]["departamento"] = None
 
         else:
