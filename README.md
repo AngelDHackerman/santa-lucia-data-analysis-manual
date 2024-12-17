@@ -19,3 +19,7 @@ Xpaths "Listado de premios" https://loteria.org.gt/site/award
 
 
 working into the data base in AWS
+
+
+Sorteos Extraordinarios have a max of 90,000 tickets sold for each lottery
+Sorteos Ordinarios have a max of 80,000 tickets sold for each lottery
