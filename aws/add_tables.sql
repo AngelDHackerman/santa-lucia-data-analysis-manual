@@ -12,4 +12,8 @@ CREATE TABLE IF NOT EXISTS letter_combinations(
     id INT AUTO_INCREMENT PRIMARY KEY,
     combinations VARCHAR(10) NOT NULL UNIQUE,
     descripcion VARCHAR(255) NOT NULL
-)
+);
+
+-- remove duplicated values
+DELETE FROM calendar_sorteos
+WHERE id > 50;

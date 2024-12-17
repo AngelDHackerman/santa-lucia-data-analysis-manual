@@ -31,6 +31,20 @@ def main():
         print(f"All CSV files successfully uploaded to the database")
     except Exception as e:
         print(f"An error occurred during upload: {e}")
+        
+# Upload the calendar and letter combinations
+def upload_new_csv_files():
+    csv_files_and_tables = [
+        ("./Data/processed/calendar_sorteos.csv", "calendar_sorteos"),
+        ("./Data/processed/letter_combinations.csv", "letter_combinations")
+    ]
+    
+    try:
+        start_upload_multiple_csv_files(csv_files_and_tables)
+        print("New CSV files successfully uploaded to the database.")
+    except Exception as e:
+        print(f"An error occurred while uploading new CSV files: {e}")
 
 if __name__ == "__main__":
-    main()
+    # main()
+    upload_new_csv_files()
