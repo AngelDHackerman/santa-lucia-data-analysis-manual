@@ -267,3 +267,5 @@ $RECYCLE.BIN/
 # Data
 /data/raw/*
 /data/processed/*
+/data/downloaded/
+/data/downloaded/*
