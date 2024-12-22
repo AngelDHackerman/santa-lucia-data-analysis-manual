@@ -23,3 +23,13 @@ working into the data base in AWS
 
 Sorteos Extraordinarios have a max of 90,000 tickets sold for each lottery
 Sorteos Ordinarios have a max of 80,000 tickets sold for each lottery
+
+
+
+### At least in my investigation I saw that in 2025 Loteria Santa Lucia showed this message: 
+
+¡Bienvenido!, de acuerdo a regulaciones de la Contraloría General de Cuentas y las regulaciones del Código Civil Decreto Ley Número 106, Artículo 2139, los sorteos se realizarán cuando se alcancen el 80% de la venta de los billetes emitidos.
+
+Agradecemos la confianza en Lotería Santa Lucía.
+
+Meaning: they are going to do the lottery only when they reach the 80% of the tickets sold. I did not see this in 2024
