@@ -33,7 +33,7 @@ def main():
         print(f"An error occurred during upload: {e}")
         
 # Upload the calendar and letter combinations
-def upload_new_csv_files():
+def upload_calendar_combinations_csv_files():
     csv_files_and_tables = [
         ("./Data/processed/calendar_sorteos.csv", "calendar_sorteos"),
         ("./Data/processed/letter_combinations.csv", "letter_combinations")
@@ -47,4 +47,4 @@ def upload_new_csv_files():
 
 if __name__ == "__main__":
     # main()
-    upload_new_csv_files()
+    upload_calendar_combinations_csv_files()
