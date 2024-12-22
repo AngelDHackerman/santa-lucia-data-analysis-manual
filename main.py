@@ -6,9 +6,9 @@ from modules.ETL.loader import start_upload_multiple_csv_files
 def main():
     # Step 1: Extract
     # Uncomment if extraction is needed
-    # lottery_number = 208
-    # output_path = extract_lottery_data(lottery_number)
-    # print(f"Extracted file saved to: {output_path}")
+    lottery_number = 209
+    output_path = extract_lottery_data(lottery_number)
+    print(f"Extracted file saved to: {output_path}")
     
     # Step 2: Transform the raw data
     input_folder = "./Data/raw/"
@@ -46,5 +46,5 @@ def upload_calendar_combinations_csv_files():
         print(f"An error occurred while uploading new CSV files: {e}")
 
 if __name__ == "__main__":
-    # main()
-    upload_calendar_combinations_csv_files()
+    main()
+    # upload_calendar_combinations_csv_files()
