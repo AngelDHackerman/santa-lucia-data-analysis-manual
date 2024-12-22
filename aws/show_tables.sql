@@ -28,6 +28,6 @@ WHERE vendedor = "NO VENDIDO"
 ORDER BY monto;
 
 SELECT * FROM calendar_sorteos
-ORDER BY sorteo_fecha;
+ORDER BY sorteo_fecha ASC;
 
 SELECT * FROM letter_combinations;

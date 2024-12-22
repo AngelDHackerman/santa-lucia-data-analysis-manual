@@ -1,2 +1,2 @@
-DELETE FROM Premios;
-DELETE FROM Sorteos;
+
+-- TRUNCATE TABLE calendar_sorteos;

@@ -46,5 +46,5 @@ def upload_calendar_combinations_csv_files():
         print(f"An error occurred while uploading new CSV files: {e}")
 
 if __name__ == "__main__":
-    main()
-    # upload_calendar_combinations_csv_files()
+    # main()
+    upload_calendar_combinations_csv_files()
