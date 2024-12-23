@@ -31,3 +31,9 @@ SELECT * FROM calendar_sorteos
 ORDER BY sorteo_fecha ASC;
 
 SELECT * FROM letter_combinations;
+
+SELECT * FROM Sorteos
+ORDER BY fecha_sorteo;
+
+SELECT * FROM Premios
+ORDER BY numero_sorteo;
