@@ -14,6 +14,4 @@ CREATE TABLE IF NOT EXISTS letter_combinations(
     descripcion VARCHAR(255) NOT NULL
 );
 
--- remove duplicated values
-DELETE FROM calendar_sorteos
-WHERE id > 50;
+
