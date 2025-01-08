@@ -56,7 +56,7 @@ Below is a high-level overview of the workflow:
 * **Input:** Lottery number 208
 * **Output:** File `results_raw_lottery_id_208.txt` stored in `./Data/raw/`
 
-**Related Code**
+**Related Code:**
 
 * File: `extract.py`
 * Sample Function: 
@@ -85,7 +85,7 @@ Below is a high-level overview of the workflow:
         * Replace missing values.
         * Validate and format data types.
 
-### Related Code
+**Related Code:**
 
 * File: `transformer.py`
 * Sample Function: 
@@ -96,8 +96,36 @@ def transform(folder_path, output_folder):
     pass
 ```
 
-
 ### Load Phase
+
+**Overview**
+
+* **Tool Used:** pymysql, AWS Secrets Manager
+* **Purpose:** Upload processed data to a MySQL database hosted on AWS RDS.
+* **Process:**
+
+    1. Retrieve database credentials securely using **AWS Secrets Manager**.
+    2. Establish a connection to the database.
+    3. Insert data into the relevant tables (Sorteos and Premios) in batches.
+
+**Outputs**
+
+* Data successfully uploaded to **AWS RDS.**
+
+**Related Code:**
+
+* File: `loader.py`
+* Sample Function:
+
+```
+def load_csv_to_table(connection, csv_file, table_name):
+    # Inserts data from CSV into a MySQL table
+    pass
+```
+
+
+
+
 
 
 
