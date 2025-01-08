@@ -50,14 +50,54 @@ Below is a high-level overview of the workflow:
     * Navigate to the desired draw information using a lottery ID.
     * Extract header and body data (prizes, winning numbers).
     * Save the extracted content to a .txt file for processing.
+
+**Example**
+
+* **Input:** Lottery number 208
+* **Output:** File `results_raw_lottery_id_208.txt` stored in `./Data/raw/`
+
+**Related Code**
+
+* File: `extract.py`
+* Sample Function: 
+    ```
+    def extract_lottery_data(lottery_number, output_folder):
+        # Scrapes data and saves it to a .txt file
+        pass
+    ```
+
+### Transform Phase 
+
+**Overview**
+
+* **Tool Used:** Pandas
+* **Purpose:** Convert raw data into clean and structured datasets.
+* **Process:**
     
+    1. **Header Processing:**
+        * Extract metadata (e.g., draw number, type, dates, main prizes, and reintegros(refounds)).
+
+    2. **Body Processing:**
+        * Extract detailed prize data, including seller information, cities, and amounts.
+    
+    3. **Data Cleaning:**
+        * Split complex columns (e.g., `reintegros`).
+        * Replace missing values.
+        * Validate and format data types.
+
+### Related Code
+
+* File: `transformer.py`
+* Sample Function: 
+
+```
+def transform(folder_path, output_folder):
+    # Reads raw data, cleans it, and saves structured CSVs
+    pass
+```
 
 
-
-
-
-
-
+### Load Phase
 
 
 
