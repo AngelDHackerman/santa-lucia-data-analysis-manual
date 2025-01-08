@@ -123,10 +123,54 @@ def load_csv_to_table(connection, csv_file, table_name):
     pass
 ```
 
+### Results
+
+* The processed data enables:
+
+    * Identification of patterns in winning numbers.
+    * Analysis of frequently rewarded locations.
+    * Visualization of trends and insights.
+
+### Future Steps
+
+1. Automate the ETL pipeline using **Cron Jobs** and **AWS EC2** or **AWS Lambda Functions.**
+2. Implement real-time data visualization using tools like **AWS Quicksight** or **Dash.**
+3. Explore predictive models to analyze patterns in winning numbers.
+4. Expand automation to handle new lottery types and regions, like Mexico's National Lottery.
 
 
+### Requisites
+
+* Python libraries: `selenium`, `pandas`, `pymysql`, `boto3`
+* AWS setup: **RDS instance** and **Secrets Manager**.
+* Tools: ChromeDriver for Selenium.
+
+### Conclusion
+
+This automated ETL project demonstrates expertise in data extraction, transformation, and storage while showcasing potential for advanced analytics and visualization. It is a robust solution for managing lottery data efficiently.
 
 
+## Insights and Findings from Visualizations (From June/01/2024 - January/05/2025)
+
+### 1. What is the Distribution Prize of Loteria Santa Lucia? (InterQuartile Range)
+
+* **Why Use IQR?**
+
+    * The IQR method is robust against outliers, making it ideal for identifying anomalies in prize distributions.
+
+    * Lottery prize data often contains extreme values (e.g., a small number of very high prizes). By focusing on the interquartile range, we can:
+
+        * Isolate typical prize values (between the 25th and 75th percentiles).
+        * Flag potential data errors or outliers for further review.
+
+    * This method ensures a cleaner and more meaningful analysis of prize distributions.
+
+![Distribution of money](./images/Distribution_money.png)
+
+So with this you can see that 50% of the prizes won are **between Q600.00 and almost Q800.00**
+With a **median aprox of Q750.00**
+
+I deciced to use the IQR (InterQuartile Rule) becuase the outliers of the "big prizes" are too high above 1,000,000 up to 5,000,000 making hard to see and understand where the mayor concentration is found.
 
 
 
