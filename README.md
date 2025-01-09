@@ -152,7 +152,7 @@ This automated ETL project demonstrates expertise in data extraction, transforma
 
 ## Insights and Findings from Visualizations (From June/01/2024 - January/05/2025)
 
-### 1. What is the Distribution Prize of Loteria Santa Lucia? (InterQuartile Range)
+### 1. What is the Distribution Prize of Loteria Santa Lucia? (InterQuartile Range) 🌟
 
 * **Why Use IQR?**
 
@@ -173,7 +173,7 @@ With a **median aprox of Q750.00**
 I deciced to use the IQR (InterQuartile Rule) becuase the outliers of the "big prizes" are too high above 1,000,000 up to 5,000,000 making hard to see and understand where the mayor concentration is found.
 
 
-### 2. What is the distribution of the Winning Numbers of Loteria Santa Lucia?
+### 2. What is the distribution of the Winning Numbers of Loteria Santa Lucia? 🌟
 
 ![Distribution of money](./images/distribution_winning_numbers.png)
 
@@ -182,7 +182,7 @@ With a **median of 42,000**
 
 When talking about winning numbers I mean a number that has won any amount of money from the range of Q500 up to Q5,000,000
 
-### What is the distribution for the Letter Combinations (letras) of Loteria Santa Lucia? 
+### 3. What is the distribution for the Letter Combinations (letras) of Loteria Santa Lucia? 
 
 ![Distribution of money](./images/distribution_letter_combinations.png)
 
@@ -203,6 +203,44 @@ Each letter stands for:
 **PDT:** Premio y Doble Terminacion (Won some money and fished with the last 2 numbers as the 1st, 2nd or 3rd place)
 
 **C:** Centena (If the 1st, 2nd or 3thd place has a number like "55049" any number between 55000 and 55100 will get some money)
+
+### 4. So then what is the range of numbers that get those letter combinations? 
+
+![Distrubtion Letters by Winning numbers](./images/letters-winning-numbers-distribution.png)
+
+**What does this mean?**
+
+Well, It means that the numbers with the letter comination for **"p"** a mostly located between **20,000** and **60,000** e.g. if you buy a ticket number with the number 40,000 good chances are that it will get the letter "p" (of course if you get some prize in lottery) 
+
+Same with letter combination for **DT, TT, PR, PDT and C** this just confirm again that a lot of the prizes won are between the range of numbers **20,000** and **60,000**
+
+# 5. From all winning numbers which one is the "Luckiest" one? 🌟
+
+## This is maybe one of the best highlights of all my findings! 🧠💥
+
+![Top 20 luckiest winning numbers](./images/top_20_luckiest_numbers.png)
+
+**What does this mean?**
+
+In fact, this means that such numbers like: **13956** has won in **6 different times**, different prizes. Not necessary that won the first place but at least it won some money.
+
+> ⚠️ IMPORTANT: Further Investigation Is Needed! 
+
+Despite this might just `statistical noise` this might be also the `key for find a pattern` in this data. We only have 6 months old data but as the dataset grows the chances to find (or not) a patter for  the winning numbers also increase. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
