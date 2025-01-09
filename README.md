@@ -256,7 +256,9 @@ Guatemala City has the largest winning numbers sold due to the huge amount of wh
 
 > Guatemala is divided in the following way: 1 Country with 22 departments, 331 municipios and at least 1 or 2 "big cities" for each department. 
 
+![Top 10 Departments with more winning numbers](./images/top_10_departments_winning.png)
 
+At department level, **Guatemala** is still the largest one with almost 2,000 winning numbers sold, by far followed by **Quetzaltenando** and **Escuintla**.
 
 
 
