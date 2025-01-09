@@ -252,7 +252,9 @@ And as you may realize the amount of winning numbers sold in **Guatemala city is
 
 Guatemala City has the largest winning numbers sold due to the huge amount of wholesellers and the web page. 
 
+### 8. What is the top 10 departments with more winning numbers sold? 
 
+> Guatemala is divided in the following way: 1 Country with 22 departments, 331 municipios and at least 1 or 2 "big cities" for each department. 
 
 
 
