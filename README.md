@@ -182,9 +182,27 @@ With a **median of 42,000**
 
 When talking about winning numbers I mean a number that has won any amount of money from the range of Q500 up to Q5,000,000
 
+### What is the distribution for the Letter Combinations (letras) of Loteria Santa Lucia? 
 
+![Distribution of money](./images/distribution_letter_combinations.png)
 
+**What does this mean?**
 
+50% of all letter combinations are located in: P, DT, TT, PR, PDT and C
+
+Each letter stands for: 
+
+**P:** Premio (Prize, won some money like Q600)
+
+**DT:** Doble terminacion (if any of the 3 winning places finsihed with "55" any number that also finished with "55" will get some money)
+
+**TT:** Triple Terminacion (if any of the 3 winning places finsihed with "756" any number that also finished with "756" will get some money)
+
+**PR:** Premio y Reintegro (Prize and Refund, won some money and you get again a new ticket for next lottery)
+
+**PDT:** Premio y Doble Terminacion (Won some money and fished with the last 2 numbers as the 1st, 2nd or 3rd place)
+
+**C:** Centena (If the 1st, 2nd or 3thd place has a number like "55049" any number between 55000 and 55100 will get some money)
 
 
 
