@@ -226,7 +226,7 @@ In fact, this means that such numbers like: **13956** has won in **6 different t
 
 > ⚠️ IMPORTANT: Further Investigation Is Needed! 
 
-Despite this might just `statistical noise` this might be also the `key for find a pattern` in this data. We only have 6 months old data but as the dataset grows the chances to find (or not) a patter for  the winning numbers also increase!
+Despite this might just `statistical noise` this might be also the `key for finding a pattern` in this data. We only have 6 months old data but as the dataset grows the chances to find (or not) a patter for  the winning numbers also increase!
 
 # 6. Top 10 sellers with more winning numbers 🌟
 
@@ -247,14 +247,14 @@ Also, the cities for the top 10 sellers can be found [here](./notebooks/visualiz
 
 **"De esta Capital" Means "Guatemala city"**
 
-And as you may realize the amount of winning numbers sold in **Guatemala city is by far the largest** one in all Loteria Santa Lucia from **June 2024 up to today!**
+And as you may realize the amount of winning numbers sold in **Guatemala city is by far the largest** one in all Loteria Santa Lucia from **June 2024 up to January 5th 2025!**
 
 
 Guatemala City has the largest winning numbers sold due to the huge amount of wholesellers and the web page. 
 
 ### 8. What is the top 10 departments with more winning numbers sold? 
 
-> Guatemala is divided in the following way: 1 Country with 22 departments, 331 municipios and at least 1 or 2 "big cities" for each department. 
+* Guatemala is divided in the following way: 1 Country with 22 departments, 331 municipios and at least 1 or 2 "big cities" for each department. 
 
 ![Top 10 Departments with more winning numbers](./images/top_10_departments_winning.png)
 
