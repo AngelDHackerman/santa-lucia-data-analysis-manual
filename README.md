@@ -173,6 +173,14 @@ With a **median aprox of Q750.00**
 I deciced to use the IQR (InterQuartile Rule) becuase the outliers of the "big prizes" are too high above 1,000,000 up to 5,000,000 making hard to see and understand where the mayor concentration is found.
 
 
+### 2. What is the distribution of the Winning Numbers of Loteria Santa Lucia?
+
+![Distribution of money](./images/distribution_winning_numbers.png)
+
+So, in the boxplot you can see that **50%** of winning numbers are located **between 21,000 and 62,000** aprox.
+With a **median of 42,000**
+
+When talking about winning numbers I mean a number that has won any amount of money from the range of Q500 up to Q5,000,000
 
 
 
