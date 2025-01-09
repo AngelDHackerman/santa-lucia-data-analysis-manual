@@ -228,8 +228,17 @@ In fact, this means that such numbers like: **13956** has won in **6 different t
 
 Despite this might just `statistical noise` this might be also the `key for find a pattern` in this data. We only have 6 months old data but as the dataset grows the chances to find (or not) a patter for  the winning numbers also increase. 
 
+# 6. Top 10 sellers with more winning numbers 🌟
 
+## Another very important finding! 
 
+![Top 10 sellers with winning numbers](./images/top_10_sellers_winning_numbers.png)
+
+So Ms. **Yecenia Mazariegos** is the top seller of winning numbers, even over the web page "Telemarketing Loteria Santa Lucia"! 
+
+This finding is very important, because there is no record of the best sellers in loteria santa lucia at all! Not even in their social networks nothing! So, I'm the first into take a look to this very interesting insight.
+
+Also, the cities for the top 10 sellers can be found [here](./notebooks/visualization_sorteos_premios.ipynb#top-10-sellers-location).
 
 
 
