@@ -274,29 +274,44 @@ When one of the first three places ends with an "X" and the number you purchased
 
 This is the smallest prize you can win 😉
 
-https://loteria.org.gt/site/award
 
-### findings: 
+### 11. From all numbers sold, what is the percentage of winning numbers by Lottery? 
 
-1. By using the lottery id, I can iterate over the objects listed in the awards list.
-by example here by using the id selector, is easy to look for the "Sortero Extraordinario N.390" because it has the `id=177`
-Also in many cases is easy to guess what will be the next URL because all the "Sorteos Ordinarios" have a consecutive number like: `180`,`181`,`183`,`184`.
-While the "Sorteos Extraordinarios" have these kind of numbers: `177`,`182`,`188`,`192`
+#### Extract relevant data for this calc
 
-So we will look for the new list awards by using the "id", 
+The lotery **'ordinario'** normaly sales up to **80,000 tickets**
 
-2. 
+The **'extraodinario'** can sale up to **90,000 tickets** (in special editions they can sale up to **100,000+** tickets).
 
+![probabilities ordinario draws](./images/probabilities_ordinario_draws.png)
 
-Xpaths "Listado de premios" https://loteria.org.gt/site/award
-<a href="/site/award-detail?id=177&amp;sorteo=390&amp;TipoSorteo=Extraordinario"></a>
+![probabilities extraordinario draws](./images/probabilities_extraodinario_draws.png)
 
 
-working into the data base in AWS
+#### This is for winning some money, not even the big prize:
+
+So, answering the question: the percentage of winning numbers for ORDINARIOS draws is **1.09%** and for EXTRAORDINARIOS is **1.92%** 
+something that basically means that in the ORDINARIO draw your chances of winning a prize is **1 in 92** meanwhile 
+in an EXTRAODINARIO one the chances are **1 in 52**, so you have slightly more chances of winning some money in an 
+EXTRAORDINARIO draw. 
 
 
-Sorteos Extraordinarios have a max of 90,000 tickets sold for each lottery
-Sorteos Ordinarios have a max of 80,000 tickets sold for each lottery
+### 12. From all winning numbers (ordinario and extraordinario), how many were actually sold? 
+
+![winning numbers sold vs not sold](./images/winning_numbers_sold_not_sold.png)
+
+**So what does this mean?** 
+
+For sure the chances of getting a prize are barely minimum, on top of that, on average, 
+**only the 8% of the winning number are actually sold.** this making the profit gap of 
+Loteria Santa Lucia a bit better.
+
+
+
+
+
+
+
 
 
 
