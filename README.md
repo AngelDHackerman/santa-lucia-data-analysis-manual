@@ -260,7 +260,19 @@ Guatemala City has the largest winning numbers sold due to the huge amount of wh
 
 At department level, **Guatemala** is still the largest one with almost 2,000 winning numbers sold, by far followed by **Quetzaltenando** and **Escuintla**.
 
+### 9. Which department has more sellers with winning numbers? 
 
+![Department with more sellers with winning numbers](./images/department_more_sellers.png)
+
+At this point, Guatemala, Quetzaltenango, and Escuintla are the top three departments with sellers that have winning numbers in their records. The full list of all sellers of Lotería Santa Lucía is not available, so we can only see the sellers with winning numbers.
+
+### 10. What is the top 5 of the most frequent refounds (reintegros)?
+
+![top 5 of most frequent refounds](./images/top_5_general_refounds.png)
+
+When one of the first three places ends with an "X" and the number you purchased also ends with that number (but doesn't necessarily win a larger prize), you can get a refund for the money you spent or use it to buy a new ticket.
+
+This is the smallest prize you can win 😉
 
 https://loteria.org.gt/site/award
 
