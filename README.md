@@ -214,7 +214,7 @@ Well, It means that the numbers with the letter comination for **"p"** a mostly 
 
 Same with letter combination for **DT, TT, PR, PDT and C** this just confirm again that a lot of the prizes won are between the range of numbers **20,000** and **60,000**
 
-# 5. From all winning numbers which one is the "Luckiest" one? 🌟
+## 5. From all winning numbers which one is the "Luckiest" one? 🌟
 
 ## This is maybe one of the best highlights of all my findings! 🧠💥
 
@@ -228,7 +228,7 @@ In fact, this means that such numbers like: **13956** has won in **6 different t
 
 Despite this might just `statistical noise` this might be also the `key for finding a pattern` in this data. We only have 6 months old data but as the dataset grows the chances to find (or not) a patter for  the winning numbers also increase!
 
-# 6. Top 10 sellers with more winning numbers 🌟
+## 6. Top 10 sellers with more winning numbers 🌟
 
 ## Another very important finding! 
 
@@ -373,7 +373,7 @@ This project follows a modular structure to streamline the ETL process and ensur
 │   │   ├── loader.py            # Loads cleaned data into the AWS RDS database.
 ├── 📃 README.md                 # Main documentation file for the project.
 ├── 🐍 main.py                   # Entry point to orchestrate the ETL process.
-├── 🐍 download_csv.py              # download the information contained in RDS.
+├── 🐍 download_csv.py           # download the information contained in RDS.
 ├── 📃 requirements.txt          # Python dependencies required for the project.
 ```
 
@@ -387,3 +387,51 @@ This project follows a modular structure to streamline the ETL process and ensur
         * transformer.py: Cleans, processes, and structures the raw data into usable formats.
         * loader.py: Automates the upload of processed data to an AWS RDS database.
 ```
+
+## **Next Steps**
+
+This project is ongoing, with several planned enhancements to fully automate the ETL pipeline and leverage cloud technologies for real-time data processing and visualization. Below are the next steps:
+
+### 1. **Full Automation of the ETL Pipeline 🤖** 
+   - **Objective:** Ensure the pipeline runs automatically without manual intervention.
+   - **Implementation:**
+     - Use **Cron Jobs** to schedule the ETL pipeline on an **AWS EC2 instance** or a local server.
+     - Explore the use of **AWS Lambda** for serverless automation, reducing operational overhead.
+     - Integrate error handling and logging mechanisms to monitor the pipeline's performance and debug issues.
+
+### 2. **Cloud Deployment 🌩️**
+   - **Objective:** Deploy the project on cloud infrastructure to ensure scalability, availability, and accessibility.
+   - **Steps:**
+     - Migrate processed datasets and visualizations to **AWS S3** for storage.
+     - Use **AWS RDS** for managing the database and storing historical data securely.
+     - Implement **AWS Secrets Manager** for managing credentials and secure database connections.
+
+### 3. **Real-Time Data Integration ⏱️**
+   - **Objective:** Update the database with the latest lottery data automatically.
+   - **Features:**
+     - Schedule periodic runs to fetch and process new lottery data.
+     - Ensure new data is uploaded to the database without overwriting historical records.
+
+### 4. **Real-Time Data Visualization 📊**
+   - **Objective:** Provide dynamic and interactive dashboards for users to explore insights.
+   - **Tools to Consider:**
+     - **Streamlit or Dash:** For creating interactive dashboards.
+     - **AWS QuickSight:** For advanced data analytics and visualization on the cloud.
+
+### 5. **Enhance Data Analysis and Insights**
+   - **Objective:** Identify new trends and patterns in lottery data.
+   - **Ideas:**
+     - Build predictive models using **machine learning** to analyze winning number patterns.
+     - Expand the analysis to include correlations between prize amounts, locations, and ticket numbers.
+
+### 6. **Documentation and Deployment 📄**
+   - **Objective:** Ensure the project is well-documented for users and collaborators.
+   - **Steps:**
+     - Finalize and upload the project to **GitHub** with a detailed README, usage instructions, and examples.
+     - Include a deployment guide for replicating the pipeline on other systems or cloud environments.
+
+### 7. **Expand to Other Lotteries 🍀**
+   - **Objective:** Apply the same framework to other lotteries in the region.
+   - **Steps:**
+     - Adapt the scraper to handle variations in lottery formats and data availability.
+     - Create a unified database schema to integrate data from multiple sources.
