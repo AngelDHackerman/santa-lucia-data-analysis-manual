@@ -435,3 +435,11 @@ This project is ongoing, with several planned enhancements to fully automate the
    - **Steps:**
      - Adapt the scraper to handle variations in lottery formats and data availability.
      - Create a unified database schema to integrate data from multiple sources.
+
+## **Acknowledgements**
+
+I would like to express my gratitude to the following:
+
+- **ChatGPT (by OpenAI):** For being an invaluable assistant throughout the development of this project, providing guidance, insights, and solutions for complex problems.
+- **Loteria Santa Lucia:** For not putting any type of captcha on their website, making it easier to extract their data.
+- **Family and Friends:** For their encouragement and understanding as I dedicated time and effort to this initiative.
