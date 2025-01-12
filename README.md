@@ -303,7 +303,7 @@ EXTRAORDINARIO draw.
 **So what does this mean?** 
 
 For sure the chances of getting a prize are barely minimum, on top of that, on average, 
-**only the 8% of the winning number are actually sold.** this making the profit gap of 
+**only the 9% of the winning number are actually sold.** this making the profit gap of 
 Loteria Santa Lucia a bit better.
 
 
@@ -353,3 +353,24 @@ Agradecemos la confianza en Lotería Santa Lucía.
 ## Project Structure 
 
 This project follows a modular structure to streamline the ETL process and ensure maintainability and scalability. Below is an overview of the directory and file structure:
+
+📂 Project_Root/
+├── 📂 aws/                      # All files related to RDS in the cloud.
+|   ├── show_tables.sql          # Example: Show all the tables and what they contain. 
+├── 📂 Data/
+│   ├── 📂 raw/                  # Raw data extracted directly from the lottery website.
+│   │   ├── results_raw_208.txt  # Example of a raw text file containing draw data.
+├── 📂 images/                   # Visualizations and plots used in analysis.
+│   ├── distribution_money.png   # Example: Distribution of prize amounts.
+│   ├── top_10_cities.png        # Example: Top 10 cities with most winning numbers.
+├── 📂 notebooks/                # Jupyter notebooks for analysis and exploration.
+│   ├── visualization_sorteos_premios.ipynb  # Contains combined visualizations and insights. ⚠️
+├── 📂 modules/                  # Python modules for the ETL process.
+│   ├── ETL/
+│   │   ├── extract.py           # Handles data extraction using Selenium.
+│   │   ├── transformer.py       # Transforms raw data into structured datasets.
+│   │   ├── loader.py            # Loads cleaned data into the AWS RDS database.
+├── README.md                    # Main documentation file for the project.
+├── main.py                      # Entry point to orchestrate the ETL process.
+├── download_csv.py              # download the information contained in RDS.
+├── requirements.txt             # Python dependencies required for the project.
