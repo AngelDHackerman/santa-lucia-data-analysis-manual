@@ -37,7 +37,7 @@ def export_table_to_csv(table_name, output_csv):
         engine.dispose()
         
 if __name__ == "__main__":
-    export_table_to_csv("Sorteos", "../Data/downloaded/sorteos_export.csv")
-    export_table_to_csv("Premios", "../Data/downloaded/premios_export.csv")
-    export_table_to_csv("calendar_sorteos", "../Data/downloaded/calendar_export.csv")
-    export_table_to_csv("letter_combinations", "../Data/downloaded/combinatios_export.csv")
+    export_table_to_csv("Sorteos", "./Data/downloaded/sorteos_export.csv")
+    export_table_to_csv("Premios", "./Data/downloaded/premios_export.csv")
+    export_table_to_csv("calendar_sorteos", "./Data/downloaded/calendar_export.csv")
+    export_table_to_csv("letter_combinations", "./Data/downloaded/combinatios_export.csv")

@@ -6,9 +6,10 @@ from modules.ETL.loader import start_upload_multiple_csv_files
 def main():
     # Step 1: Extract
     # Uncomment if extraction is needed
-    # lottery_number = 206
-    # output_path = extract_lottery_data(lottery_number)
-    # print(f"Extracted file saved to: {output_path}")
+    lottery_number = 210
+    
+    output_path = extract_lottery_data(lottery_number)
+    print(f"Extracted file saved to: {output_path}")
     
     # Step 2: Transform the raw data
     input_folder = "./Data/raw/"
@@ -33,17 +34,17 @@ def main():
         print(f"An error occurred during upload: {e}")
         
 # Upload the calendar and letter combinations
-def upload_calendar_combinations_csv_files():
-    csv_files_and_tables = [
-        ("./Data/processed/calendar_sorteos.csv", "calendar_sorteos"),
-        ("./Data/processed/letter_combinations.csv", "letter_combinations")
-    ]
+# def upload_calendar_combinations_csv_files():
+#     csv_files_and_tables = [
+#         ("./Data/processed/calendar_sorteos.csv", "calendar_sorteos"),
+#         ("./Data/processed/letter_combinations.csv", "letter_combinations")
+#     ]
     
-    try:
-        start_upload_multiple_csv_files(csv_files_and_tables)
-        print("New CSV files successfully uploaded to the database.")
-    except Exception as e:
-        print(f"An error occurred while uploading new CSV files: {e}")
+#     try:
+#         start_upload_multiple_csv_files(csv_files_and_tables)
+#         print("New CSV files successfully uploaded to the database.")
+#     except Exception as e:
+#         print(f"An error occurred while uploading new CSV files: {e}")
 
 if __name__ == "__main__":
     main()

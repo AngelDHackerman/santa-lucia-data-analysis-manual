@@ -37,3 +37,7 @@ ORDER BY fecha_sorteo;
 
 SELECT * FROM Premios
 ORDER BY numero_sorteo;
+
+-- count total rows
+SELECT COUNT(*) AS total_rows
+FROM Premios;
