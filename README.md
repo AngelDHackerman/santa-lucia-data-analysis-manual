@@ -348,3 +348,8 @@ Agradecemos la confianza en Lotería Santa Lucía.
   - **Transformation:** Cleaning, enriching, and structuring data using Pandas. 🦋
   - **Load:** Inserting processed data into a relational MySQL database. 📈
 - **Future Automation:** Using **Cron Jobs** and serverless services to periodically execute the pipeline. ⏰
+
+
+## Project Structure 
+
+This project follows a modular structure to streamline the ETL process and ensure maintainability and scalability. Below is an overview of the directory and file structure:
