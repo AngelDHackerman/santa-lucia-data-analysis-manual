@@ -60,7 +60,7 @@ Below is a high-level overview of the workflow:
 
 * File: `extract.py`
 * Sample Function: 
-    ```
+    ```py
     def extract_lottery_data(lottery_number, output_folder):
         # Scrapes data and saves it to a .txt file
         pass
@@ -90,7 +90,7 @@ Below is a high-level overview of the workflow:
 * File: `transformer.py`
 * Sample Function: 
 
-```
+```py
 def transform(folder_path, output_folder):
     # Reads raw data, cleans it, and saves structured CSVs
     pass
@@ -117,7 +117,7 @@ def transform(folder_path, output_folder):
 * File: `loader.py`
 * Sample Function:
 
-```
+```py
 def load_csv_to_table(connection, csv_file, table_name):
     # Inserts data from CSV into a MySQL table
     pass
@@ -354,6 +354,7 @@ Agradecemos la confianza en Lotería Santa Lucía.
 
 This project follows a modular structure to streamline the ETL process and ensure maintainability and scalability. Below is an overview of the directory and file structure:
 
+```py
 📂 Project_Root/
 ├── 📂 aws/                      # All files related to RDS in the cloud.
 |   ├── show_tables.sql          # Example: Show all the tables and what they contain. 
@@ -370,7 +371,19 @@ This project follows a modular structure to streamline the ETL process and ensur
 │   │   ├── extract.py           # Handles data extraction using Selenium.
 │   │   ├── transformer.py       # Transforms raw data into structured datasets.
 │   │   ├── loader.py            # Loads cleaned data into the AWS RDS database.
-├── README.md                    # Main documentation file for the project.
-├── main.py                      # Entry point to orchestrate the ETL process.
-├── download_csv.py              # download the information contained in RDS.
-├── requirements.txt             # Python dependencies required for the project.
+├── 📃 README.md                 # Main documentation file for the project.
+├── 🐍 main.py                   # Entry point to orchestrate the ETL process.
+├── 🐍 download_csv.py              # download the information contained in RDS.
+├── 📃 requirements.txt          # Python dependencies required for the project.
+```
+
+```
+📂 Data raw/: Stores the raw text files scraped from the lottery website.
+📂 images: Includes all static visualizations generated during exploratory data analysis (EDA) and for the README documentation.
+📂 notebooks: Contains Jupyter notebooks used for exploring the data, generating insights, and creating visualizations.
+📂 modules: 
+    * ETL/: Houses scripts for each stage of the ETL pipeline:
+        * extract.py: Scrapes raw lottery data using Selenium.
+        * transformer.py: Cleans, processes, and structures the raw data into usable formats.
+        * loader.py: Automates the upload of processed data to an AWS RDS database.
+```
