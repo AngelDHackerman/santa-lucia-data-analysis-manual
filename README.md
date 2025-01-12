@@ -4,11 +4,37 @@
 
 In this project I tried to answer and discover insights about **"Loteria Santa Lucia de Guatemala"** which is the biggest lottery in my country (Guatemala). Also to create a historical dataset for their winnig number, due to the fact that there is no way to retrieve the old data from the past draws.
 
-## **Table of contents**
+## **Table of Contents**
+1. [Description](#description)
+2. [Why of this project?](#why-of-this-project)
+3. [Automated ETL Process for Loteria Santa Lucia Data](#automated-etl-process-for-loteria-santa-lucia-data)
+   - [ETL Architecture](#etl-architecture)
+   - [Extract Phase](#extract-phase)
+   - [Transform Phase](#transform-phase)
+   - [Load Phase](#load-phase)
+   - [Results](#results)
+   - [Future Steps](#future-steps)
+4. [Requisites](#requisites)
+5. [Insights and Findings from Visualizations](#insights-and-findings-from-visualizations-from-june012024---january052025)
+   - [Prize Distribution (IQR)](#1-what-is-the-distribution-prize-of-loteria-santa-lucia-interquartile-range-🌟)
+   - [Winning Numbers Distribution](#2-what-is-the-distribution-of-the-winning-numbers-of-loteria-santa-lucia-🌟)
+   - [Letter Combinations Distribution](#3-what-is-the-distribution-for-the-letter-combinations-letras-of-loteria-santa-lucia)
+   - [Range of Numbers for Letter Combinations](#4-so-then-what-is-the-range-of-numbers-that-get-those-letter-combinations)
+   - [Luckiest Winning Numbers](#5-from-all-winning-numbers-which-one-is-the-luckiest-one-🌟)
+   - [Top Sellers with Winning Numbers](#6-top-10-sellers-with-more-winning-numbers-🌟)
+   - [Top Cities with Winning Numbers](#7-what-is-the-top-10-of-guatemalas-cities-with-more-winning-numbers)
+   - [Top Departments with Winning Numbers](#8-what-is-the-top-10-departments-with-more-winning-numbers-sold)
+   - [Departments with Most Sellers with Winning Numbers](#9-which-department-has-more-sellers-with-winning-numbers)
+   - [Most Frequent Refunds](#10-what-is-the-top-5-of-the-most-frequent-refounds-reintegros)
+   - [Winning Numbers Percentages](#11-from-all-numbers-sold-what-is-the-percentage-of-winning-numbers-by-lottery)
+   - [Sold vs Not Sold Winning Numbers](#12-from-all-winning-numbers-ordinario-and-extraordinario-how-many-were-actually-sold)
+6. [Technologies and Tools Used](#technologies-and-tools-used-🛠️)
+7. [Project Structure](#project-structure)
+8. [Next Steps](#next-steps)
+9. [Acknowledgements](#acknowledgements)
 
-Pending...
 
-## **Why of this project?**
+## **Why of this project?** [Go Back ⬆️](#table-of-contents)
 
 Lotería Santa Lucía is the largest and oldest lottery in Guatemala, founded in 1956. Unfortunately, there is no way to retrieve historical data other than through old physical newspapers, some Facebook videos (available only since 2018), or by purchasing old newspapers (PDFs) from the "National Newspaper Archive of Guatemala," which is very expensive (I tried it...).
 
@@ -17,7 +43,7 @@ Once a draw expires, the data is permanently erased. There is no way to perform 
 Due to all these factors, I found a valuable way to provide data that no one else has, which could be interesting for those interested in statistics and Machine Learning.
 
 
-## **Automated ETL Process for Loteria Santa Lucia Data**
+## **Automated ETL Process for Loteria Santa Lucia Data** [Go Back ⬆️](#table-of-contents)
 
 ### Introduction
 
@@ -139,7 +165,7 @@ def load_csv_to_table(connection, csv_file, table_name):
 4. Expand automation to handle new lottery types and regions, like Mexico's National Lottery.
 
 
-### Requisites
+## Requisites [Go Back ⬆️](#table-of-contents)
 
 * Python libraries: `selenium`, `pandas`, `pymysql`, `boto3`
 * AWS setup: **RDS instance** and **Secrets Manager**.
@@ -150,7 +176,8 @@ def load_csv_to_table(connection, csv_file, table_name):
 This automated ETL project demonstrates expertise in data extraction, transformation, and storage while showcasing potential for advanced analytics and visualization. It is a robust solution for managing lottery data efficiently.
 
 
-## Insights and Findings from Visualizations (From June/01/2024 - January/05/2025)
+
+## Insights and Findings from Visualizations (From June/01/2024 - January/05/2025) [Go Back ⬆️](#table-of-contents)
 
 ### 1. What is the Distribution Prize of Loteria Santa Lucia? (InterQuartile Range) 🌟
 
@@ -316,7 +343,7 @@ Agradecemos la confianza en Lotería Santa Lucía.
 **Meaning:** they are going to do the lottery only when they reach the 80% of the tickets sold. **I did not see this in 2024**
 
 
-## **Technologies and Tools Used 🛠️**
+## **Technologies and Tools Used 🛠️** [Go Back ⬆️](#table-of-contents)
 
 ### Languages and Libraries 📚
 - **Python:** Main language used for developing the extraction, transformation, and load (ETL) phases. 🐍
@@ -350,7 +377,7 @@ Agradecemos la confianza en Lotería Santa Lucía.
 - **Future Automation:** Using **Cron Jobs** and serverless services to periodically execute the pipeline. ⏰
 
 
-## Project Structure 
+## Project Structure [Go Back ⬆️](#table-of-contents)
 
 This project follows a modular structure to streamline the ETL process and ensure maintainability and scalability. Below is an overview of the directory and file structure:
 
@@ -388,7 +415,7 @@ This project follows a modular structure to streamline the ETL process and ensur
         * loader.py: Automates the upload of processed data to an AWS RDS database.
 ```
 
-## **Next Steps**
+## **Next Steps** [Go Back ⬆️](#table-of-contents)
 
 This project is ongoing, with several planned enhancements to fully automate the ETL pipeline and leverage cloud technologies for real-time data processing and visualization. Below are the next steps:
 
@@ -436,7 +463,7 @@ This project is ongoing, with several planned enhancements to fully automate the
      - Adapt the scraper to handle variations in lottery formats and data availability.
      - Create a unified database schema to integrate data from multiple sources.
 
-## **Acknowledgements**
+## **Acknowledgements** [Go Back ⬆️](#table-of-contents)
 
 I would like to express my gratitude to the following:
 
