@@ -316,3 +316,35 @@ Agradecemos la confianza en Lotería Santa Lucía.
 **Meaning:** they are going to do the lottery only when they reach the 80% of the tickets sold. **I did not see this in 2024**
 
 
+## **Technologies and Tools Used 🛠️**
+
+### Languages and Libraries 📚
+- **Python:** Main language used for developing the extraction, transformation, and load (ETL) phases. 🐍
+  - **Selenium:** For web automation and data extraction.
+  - **Pandas:** For data cleaning, transformation, and analysis. 🐼
+  - **PyMySQL:** For loading data into MySQL databases hosted on **AWS RDS**. ☁️
+  - **Boto3:** To manage credentials and AWS services, including **AWS Secrets Manager.** ☁️
+  - **TQDM:** For progress bar visualization during data uploads. 📈
+
+### Cloud Services and Platforms
+- **AWS RDS:** MySQL database for storing and managing processed data. ☁️
+- **AWS Secrets Manager:** To securely manage credentials. ☁️
+- **AWS EC2 (Future):** Server planned for automating ETL processes. 🖥️
+- **AWS Lambda (Future):** Planned for real-time automation. 🖥️
+
+### Development Environment
+- **ChromeDriver:** Used by Selenium for web browser automation. 
+- **Jupyter Notebooks:** For exploratory data analysis and visualization. 📔
+- **GitHub:** Repository for version control and project documentation. 🐙
+
+### Data Visualization
+- **Matplotlib and Seaborn:** For creating visualizations such as distributions, boxplots, and bar charts. 🌊
+- **Dash or Streamlit (Future):** For real-time data visualization.
+- **AWS QuickSight (Future):** Planned for advanced visual analytics.
+
+### Methods and Processes
+- **Automated ETL:**
+  - **Extraction:** Obtaining raw data from the lottery website. ✂️
+  - **Transformation:** Cleaning, enriching, and structuring data using Pandas. 🦋
+  - **Load:** Inserting processed data into a relational MySQL database. 📈
+- **Future Automation:** Using **Cron Jobs** and serverless services to periodically execute the pipeline. ⏰
