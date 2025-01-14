@@ -2,18 +2,28 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import boto3
 import os
 import time
 
+def upload_to_s3(local_file_path, s3_bucket, s3_key):
+    """
+    Uploads a file to an S3 bucket.
+    """
+    s3 = boto3.client('s3')
+    s3.upload_file(local_file_path, s3_bucket, s3_key)
+    print(f"File uploaded to S3: s3://{s3_bucket}/{s3_key}")
 
 def extract_lottery_data(lottery_number, output_folder="./Data/raw/"):
     """
-    Extracts raw lottery data for a given lottery number and saves it to a .txt file.
-    
+    Extracts raw lottery data for a given lottery number or the latest lottery.
+    Saves the data to a .txt file and optionally uploads it to S3.
+
     Args:
-        lottery_number (int): The ID of the lottery to extract.
-        output_folder (str): Folder where the extracted data will be saved.
-        
+        lottery_number (int, optional): The ID of the lottery to extract. If None, extracts the latest lottery.
+        output_folder (str): Folder where the extracted data will be temporarily saved.
+        s3_bucket (str, optional): S3 bucket to upload the extracted file.
+
     Returns:
         str: Path to the saved .txt file.
     """
