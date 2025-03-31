@@ -5,7 +5,7 @@ from modules.ETL.transformer import transform
 def main():
     # Step 1: Extract
     # Uncomment if extraction is needed
-    lottery_number = 220 # Add here the id of the lottery number to extract
+    lottery_number = 221 # Add here the id of the lottery number to extract
     
     output_path = extract_lottery_data(lottery_number)
     print(f"Extracted file saved to: {output_path}")
