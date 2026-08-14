@@ -1,15 +1,19 @@
 import os
-from modules.ETL.extract import extract_lottery_data
+from modules.ETL.extract import extract_lottery_range
 from modules.ETL.transformer import transform
 
 def main():
     # Step 1: Extract
-    # Uncomment if extraction is needed
-    lottery_number = 268 # Add here the id of the lottery number to extract
-    
-    output_path = extract_lottery_data(lottery_number)
-    print(f"Extracted file saved to: {output_path}")
-    
+    # Range of lottery URL ids to extract. These are the ids in the award-detail
+    # URL, not the sorteo numbers: id=266 is sorteo 409, id=290 is sorteo 3132.
+    # Ids already present in ./Data/raw/ are skipped.
+    lottery_numbers = range(266, 291)
+
+    extracted, skipped, failed = extract_lottery_range(lottery_numbers)
+    print(f"Extracted {len(extracted)} new file(s), skipped {len(skipped)} already present.")
+    if failed:
+        print(f"Could not extract these ids, they are left out of this run: {failed}")
+
     # Step 2: Transform the raw data
     input_folder = "./Data/raw/"
     output_folder = "./Data/processed"
